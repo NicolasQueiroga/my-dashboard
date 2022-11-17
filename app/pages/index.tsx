@@ -11,6 +11,8 @@ import Users from './users/index';
 import Resume from './resume/index';
 
 const DEBUG = false;
+const VARIABLES_ENDPOINT = "http://0.0.0.0:8000/api/aws/variables/";
+
 
 
 export default function Home() {
@@ -137,6 +139,7 @@ export default function Home() {
       ],
       "users": [
         {
+          "id": "1",
           "groups_ids": ["1", "2"],
           "name": "user_teste_1",
           "restrictions": {
@@ -151,6 +154,7 @@ export default function Home() {
           }
         },
         {
+          "id": "2",
           "groups_ids": ["2"],
           "name": "user_teste_2",
           "restrictions": {
@@ -188,17 +192,17 @@ export default function Home() {
       ]
     }
   );
-  // useEffect(() => {
-  //   async function loadJson() {
-  //     try {
-  //       const response = await axios.get("/api/json");
-  //       setJson(response.data);
-  //     } catch (error) {
-  //       setError(["Error loading json"]);
-  //     }
-  //   }
-  //   loadJson();
-  // }, []);
+  useEffect(() => {
+    async function loadJson() {
+      try {
+        const response = await axios.get(VARIABLES_ENDPOINT);
+        setJson(response.data);
+      } catch (error) {
+        setError(["Error loading json"]);
+      }
+    }
+    loadJson();
+  }, []);
 
 
   return (
@@ -217,6 +221,13 @@ export default function Home() {
           {page === 2 && (<UserGroups json={json} setJson={setJson} page={page} setPage={setPage} />)}
           {page === 3 && (<Users json={json} setJson={setJson} page={page} setPage={setPage} />)}
           {page === 4 && (<Resume json={json} page={page} setPage={setPage} />)}
+        </div>
+        <div className={styles.map}>
+          <button onClick={() => setPage(0)}>Security Groups</button>
+          <button onClick={() => setPage(1)}>Instances</button>
+          <button onClick={() => setPage(2)}>User Groups</button>
+          <button onClick={() => setPage(3)}>Users</button>
+          <button onClick={() => setPage(4)}>Resume</button>
         </div>
       </main >
       <footer className={styles.footer}>

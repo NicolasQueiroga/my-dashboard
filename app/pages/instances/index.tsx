@@ -46,9 +46,10 @@ const instanceTypeList = [
 
 
 export default function Instances({ json, setJson, page, setPage, availabilityZones }: ({ json: JsonProps, setJson: Function, page: number, setPage: Function, availabilityZones: string[] })) {
-  const securityGroups: SecurityGroupProps[] = json.security_groups;
   const [instances, setInstances] = useState(json.instances);
   const [createI, setCreateI] = useState(false);
+  const [activeInstance, setActiveInstance] = useState("");
+
 
   let dummy: InstanceProps = {
     name: "",
@@ -75,13 +76,21 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
     setJson(newJson);
   }
 
+  function updateInstance() {
+    let newJson = { ...json };
+    newJson.instances = newJson.instances.filter((instance) => instance.name != activeInstance);
+    newJson.instances.push(dummy);
+    setJson(newJson);
+    setActiveInstance("");
+  }
+
   function showInstances() {
     return (
       <div className={styles.instances}>
         {instances.map((instance, index) => {
           return (
             <div key={index} className={styles.instance}>
-              <p className={styles.instanceName}>{instance.name}</p>
+              <p className={styles.instanceName} onClick={() => { setActiveInstance(instance.name) }}>{instance.name}</p>
               <p className={styles.instanceDescription}>{(distroDict as any)[instance.ami]}</p>
               <p className={styles.instanceType}>{instance.instance_type}</p>
               <p className={styles.instanceRegion}>{instance.region}</p>
@@ -108,6 +117,58 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
           )
         })}
       </div>
+    )
+  }
+
+  function showInstance(index: number) {
+    dummy = { ...instances[index] };
+    return (
+      <div className={styles.instance}>
+        <input type="text" placeholder="Name" defaultValue={dummy.name} onChange={(e) => { dummy.name = e.target.value }} />
+        <select value={dummy.ami} onChange={(e) => { dummy.ami = e.target.value }}>
+          {amiList.map((ami, index) => {
+            return (
+              <option key={index} defaultValue={ami}>{(distroDict as any)[ami]}</option>
+            )
+          })}
+        </select>
+        <select value={dummy.instance_type} onChange={(e) => { dummy.instance_type = e.target.value }}>
+          {instanceTypeList.map((instanceType, index) => {
+            return (
+              <option key={index} defaultValue={instanceType}>{instanceType}</option>
+            )
+          })}
+        </select>
+        <select value={dummy.region} onChange={(e) => { dummy.region = e.target.value }}>
+          {availabilityZones.map((az, index) => {
+            return (
+              <option key={index} defaultValue={az}>{az}</option>
+            )
+          })}
+        </select>
+        <div className={styles.instanceSecurityGroups}>
+          {json.security_groups.map((sg, k) => {
+            return (
+              <div key={k} className={styles.instanceSecurityGroup}>
+                <input type="checkbox" defaultChecked={dummy.security_groups_ids.includes(sg.id)} onChange={(e) => {
+                  if (e.target.checked) {
+                    dummy.security_groups_ids.push(sg.id);
+                  } else {
+                    dummy.security_groups_ids = dummy.security_groups_ids.filter((id) => id != sg.id);
+                  }
+                }} />
+                <label>{sg.name}</label>
+              </div>
+            )
+          })}
+        </div>
+        <div className={styles.instanceButtons}>
+          <button onClick={() => {
+            updateInstance();
+          }}>Update</button>
+        </div>
+      </div>
+
     )
   }
 
@@ -184,12 +245,15 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
     )
   }
 
+
+
   return (
     <div className={styles.container}>
       <p className={styles.title}>Instances</p>
-      {!createI && showInstances()}
-      {createI && createInstance()}
-      {!createI && (
+      {activeInstance === "" && !createI && showInstances()}
+      {activeInstance !== "" && showInstance(instances.findIndex((instance) => { return instance.name == activeInstance }))}
+      {createI && activeInstance === "" && createInstance()}
+      {!createI && activeInstance === "" && (
         <div className={styles.buttons}>
           <button onClick={() => {
             setCreateI(true);

@@ -64,7 +64,8 @@ resource "aws_security_group" "sg" {
   description = each.value.description
   vpc_id      = aws_vpc.vpc.id
   tags = {
-    Name = each.value.id
+    Name = each.value.name
+    id  = each.value.id
   }
 
   dynamic "ingress" {

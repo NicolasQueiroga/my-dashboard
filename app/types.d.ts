@@ -27,6 +27,7 @@ interface UserGroupProps {
 }
 
 interface UserProps {
+    id: string;
     groups_ids: string[];
     name: string;
     restrictions: PolicyProps;

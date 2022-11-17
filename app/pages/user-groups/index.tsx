@@ -85,7 +85,7 @@ export default function UserGroups({ json, setJson, page, setPage }: ({ json: Js
         <button className={styles.btn} onClick={() => {
           updateUserGroup(dummy);
           setCreateUG(false);
-        }}>Save</button>
+        }}>Create</button>
         <button className={styles.btn} onClick={() => {
           setCreateUG(false);
         }}>Cancel</button>
@@ -95,8 +95,9 @@ export default function UserGroups({ json, setJson, page, setPage }: ({ json: Js
 
   function updateUserGroup(data: UserGroupProps) {
     let newJson = { ...json };
+    console.log("errrrrou", newJson);
     newJson.user_groups.map((ug) => {
-      if (ug.id === data.id) {
+      if (ug.id === data.id && data.id !== "") {
         ug.name = data.name;
         ug.description = data.description;
         ug.restrictions.name = data.restrictions.name;
@@ -124,6 +125,10 @@ export default function UserGroups({ json, setJson, page, setPage }: ({ json: Js
         );
       }
     });
+    if (json.user_groups.length === 0) {
+      data.id = "1";
+      newJson.user_groups.push(data);
+    }
     setJson(newJson);
   }
 

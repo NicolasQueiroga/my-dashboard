@@ -1,8 +1,8 @@
-import styles from '../../styles/Instances.module.css'
+import styles from '../../styles/Resume.module.css'
 import { useState } from "react";
 import axios from "axios";
 
-const LOUNCH_ENDPOINT = "http://localhost:8000/api/launch";
+const LOUNCH_ENDPOINT = "http://0.0.0.0:8000/api/aws/launch/";
 
 export default function Resume({ json, page, setPage }: ({ json: JsonProps, page: number, setPage: Function })) {
     const securityGroups: Array<SecurityGroupProps> = json.security_groups;
@@ -13,11 +13,12 @@ export default function Resume({ json, page, setPage }: ({ json: JsonProps, page
 
     async function launch() {
         try {
-            const response = await axios.post(LOUNCH_ENDPOINT, json);
+            const response = await axios.post(LOUNCH_ENDPOINT, {json});
             console.log(response);
         } catch (error) {
             console.log(error);
         }
+        setPage(0);
     }
 
     function showSecurityGroups() {
@@ -134,7 +135,7 @@ export default function Resume({ json, page, setPage }: ({ json: JsonProps, page
                             <p className={styles.userRestrictionsTitle}>Restrictions</p>
                             <div className={styles.actions}>
                                 <p className={styles.actionsTitle}>Actions</p>
-                                {user.restrictions.actions.map((action, index: number) => (
+                                {user.restrictions.actions.length && user.restrictions.actions.map((action, index: number) => (
                                     <div className={styles.action} key={index}>
                                         <p className={styles.actionTitle}>{action}</p>
                                     </div>
@@ -142,7 +143,7 @@ export default function Resume({ json, page, setPage }: ({ json: JsonProps, page
                             </div>
                             <div className={styles.resources}>
                                 <p className={styles.resourcesTitle}>Resources</p>
-                                {user.restrictions.resources.map((resource, index: number) => (
+                                {user.restrictions.resources && user.restrictions.resources.map((resource, index: number) => (
                                     <div className={styles.resource} key={index}>
                                         <p className={styles.resourceTitle}>{resource}</p>
                                     </div>
@@ -162,19 +163,19 @@ export default function Resume({ json, page, setPage }: ({ json: JsonProps, page
             <div className={styles.resume}>
                 <div className={styles.securityGroups}>
                     <p className={styles.securityGroupsTitle}>Security Groups</p>
-                    {showSecurityGroups()}
+                    {securityGroups.length > 0 && showSecurityGroups()}
                 </div>
                 <div className={styles.instances}>
                     <p className={styles.instancesTitle}>Instances</p>
-                    {showInstances()}
+                    {instances.length > 0 && showInstances()}
                 </div>
                 <div className={styles.userGroups}>
                     <p className={styles.userGroupsTitle}>User Groups</p>
-                    {showUserGroups()}
+                    {userGroups.length > 0 && showUserGroups()}
                 </div>
                 <div className={styles.users}>
                     <p className={styles.usersTitle}>Users</p>
-                    {showUsers()}
+                    {users.length > 0 && showUsers()}
                 </div>
             </div>
 

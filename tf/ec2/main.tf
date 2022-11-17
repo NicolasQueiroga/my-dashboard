@@ -22,7 +22,7 @@ resource "aws_instance" "ec2_instance" {
   ami                    = each.value.ami
   availability_zone      = each.value.region
   subnet_id              = var.public_subnet
-  vpc_security_group_ids = [for sg in var.security_groups : sg.id if contains(each.value.security_groups_ids, sg.tags.Name)]
+  vpc_security_group_ids = [for sg in var.security_groups : sg.id if contains(each.value.security_groups_ids, sg.tags.id)]
 
   tags = {
     Name = each.value.name

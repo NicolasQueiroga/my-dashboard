@@ -15,6 +15,7 @@ let dummy = {
   ],
 };
 
+
 export default function SecurityGroups({ json, setJson, page, setPage }: ({ json: JsonProps, setJson: Function, page: number, setPage: Function })) {
   const [securityGroups, setSecurityGroups] = useState<Array<SecurityGroupProps>>(json.security_groups);
   const [newSg, setNewSg] = useState<SecurityGroupProps>(dummy);
@@ -25,36 +26,23 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
   const [createSg, setCreateSg] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string>("");
 
+  function addSecurityGroup(data: SecurityGroupProps) {
+    let newJson = { ...json };
+    let newSg = { ...data };
+    newSg.id = (json.security_groups.length + 1).toString();
+    newJson.security_groups.push(newSg);
+    setJson(newJson);
+  }
+
   function updateSecurityGroup(data: SecurityGroupProps) {
     let newJson = { ...json };
-    newJson.security_groups.map((securityGroup) => {
-      if (securityGroup.id === data.id) {
-        securityGroup.name = data.name;
-        securityGroup.description = data.description;
-        securityGroup.ingress = data.ingress;
-      } else if (data.id == "") {
-        let currentLastId = json.security_groups[json.security_groups.length - 1].id;
-        let newId = parseInt(currentLastId) + 1;
-        data.id = newId.toString();
-        newJson.security_groups.push(data);
-        setNewSg(
-          {
-            id: "",
-            name: "",
-            description: "",
-            ingress: [
-              {
-                protocol: "",
-                from_port: "",
-                to_port: "",
-                cidr_blocks: [""],
-              },
-            ],
-          }
-        );
+    newJson.security_groups.map((sg) => {
+      if (sg.id === data.id) {
+        sg.name = data.name;
+        sg.description = data.description;
+        sg.ingress = data.ingress;
       }
-    }
-    );
+    });
     setJson(newJson);
   }
 
@@ -117,7 +105,7 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
         </div>
         <button
           onClick={() => {
-            updateSecurityGroup(dummy);
+            addSecurityGroup(dummy);
             setCreateSg(false);
           }}
         >
