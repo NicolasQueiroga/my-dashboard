@@ -32,6 +32,21 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
     newSg.id = (json.security_groups.length + 1).toString();
     newJson.security_groups.push(newSg);
     setJson(newJson);
+    setNewSg(
+      {
+        id: "",
+        name: "",
+        description: "",
+        ingress: [
+          {
+            protocol: "",
+            from_port: "",
+            to_port: "",
+            cidr_blocks: [""],
+          },
+        ],
+      }
+    );
   }
 
   function updateSecurityGroup(data: SecurityGroupProps) {

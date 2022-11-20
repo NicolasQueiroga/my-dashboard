@@ -2,7 +2,7 @@ import styles from '../../styles/Users.module.css'
 import { useForm } from "react-hook-form";
 import { useState, useEffect, use } from "react";
 
-//! update name zuado
+
 export default function Users({ json, setJson, page, setPage }: ({ json: JsonProps, setJson: Function, page: number, setPage: Function })) {
   const [users, setUsers] = useState<Array<UserProps>>(json.users);
   const [createU, setCreateU] = useState(false);
@@ -217,9 +217,6 @@ export default function Users({ json, setJson, page, setPage }: ({ json: JsonPro
     )
   }
 
-  useEffect(() => {
-    console.log("dummy", dummy);
-  }, [dummy]);
 
   function createUser() {
     dummy = { ...newUser };

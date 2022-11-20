@@ -125,13 +125,7 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
     return (
       <div className={styles.instance}>
         <input type="text" placeholder="Name" defaultValue={dummy.name} onChange={(e) => { dummy.name = e.target.value }} />
-        <select value={dummy.ami} onChange={(e) => { dummy.ami = e.target.value }}>
-          {amiList.map((ami, index) => {
-            return (
-              <option key={index} defaultValue={ami}>{(distroDict as any)[ami]}</option>
-            )
-          })}
-        </select>
+        <input type="text" defaultValue={dummy.ami} onChange={(e) => { dummy.ami = e.target.value }} />
         <select value={dummy.instance_type} onChange={(e) => { dummy.instance_type = e.target.value }}>
           {instanceTypeList.map((instanceType, index) => {
             return (
@@ -139,13 +133,7 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
             )
           })}
         </select>
-        <select value={dummy.region} onChange={(e) => { dummy.region = e.target.value }}>
-          {availabilityZones.map((az, index) => {
-            return (
-              <option key={index} defaultValue={az}>{az}</option>
-            )
-          })}
-        </select>
+        <input type="text" defaultValue={dummy.region} onChange={(e) => { dummy.region = e.target.value }} />
         <div className={styles.instanceSecurityGroups}>
           {json.security_groups.map((sg, k) => {
             return (
@@ -179,18 +167,9 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
         <input type="text" name="name" placeholder="name" onChange={(e) => {
           dummy.name = e.target.value
         }} />
-        <select name="ami" onChange={(e) => {
+        <input type="text" placeholder="AMI" name="ami" onChange={(e) => {
           dummy.ami = e.target.value
-        }}>
-          <option value="">Select AMI</option>
-          {amiList.map((ami, index) => {
-            let distro = (distroDict as any)[ami];
-            console.log(ami);
-            return (
-              <option key={index} value={ami}>{distro}</option>
-            )
-          })}
-        </select>
+        }} />
         <select name="instance_type" onChange={(e) => {
           dummy.instance_type = e.target.value
         }}>
@@ -201,16 +180,10 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
             )
           })}
         </select>
-        <select name="region" onChange={(e) => {
+        <input type="text" placeholder="Region" name="region" onChange={(e) => {
           dummy.region = e.target.value
-        }}>
-          <option value="">Select Region</option>
-          {availabilityZones.map((region, index) => {
-            return (
-              <option key={index} value={region}>{region}</option>
-            )
-          })}
-        </select>
+        }} />
+
         <div className={styles.sgCheckbox}>
           {json.security_groups.map((sg, index) => {
             return (
