@@ -13,6 +13,14 @@ let dummy = {
       cidr_blocks: [""],
     },
   ],
+  egress: [
+    {
+      protocol: "",
+      from_port: "",
+      to_port: "",
+      cidr_blocks: [""],
+    },
+  ],
 };
 
 
@@ -45,6 +53,14 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
             cidr_blocks: [""],
           },
         ],
+        egress: [
+          {
+            protocol: "",
+            from_port: "",
+            to_port: "",
+            cidr_blocks: [""],
+          },
+        ],
       }
     );
   }
@@ -56,6 +72,7 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
         sg.name = data.name;
         sg.description = data.description;
         sg.ingress = data.ingress;
+        sg.egress = data.egress;
       }
     });
     setJson(newJson);
@@ -77,14 +94,18 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
     dummy = { ...newSg };
     return (
       <div className={styles.securityGroupFocus}>
-        <input type="text" placeholder="Name" defaultValue={newSg.name} onChange={(e) => (dummy.name = e.target.value)} />
-        <input type="text" placeholder="Description" defaultValue={newSg.description} onChange={(e) => (dummy.description = e.target.value)} />
-        <div className={styles.ingress}>
-          {newSg.ingress.map((ingress, index) => (
-            <div key={index} className={styles.ingressItem}>
-              <input type="text" placeholder="Protocol" defaultValue={ingress.protocol} onChange={(e) => (dummy.ingress[index].protocol = e.target.value)} />
-              <input type="text" placeholder="From Port" defaultValue={ingress.from_port} onChange={(e) => (dummy.ingress[index].from_port = e.target.value)} />
-              <input type="text" placeholder="To Port" defaultValue={ingress.to_port} onChange={(e) => (dummy.ingress[index].to_port = e.target.value)} />
+        <div className={styles.securityGroupFocusHeader}>
+          <input type="text" placeholder="Name" defaultValue={newSg.name} onChange={(e) => (dummy.name = e.target.value)} />
+          <input type="text" placeholder="Description" defaultValue={newSg.description} onChange={(e) => (dummy.description = e.target.value)} />
+        </div>
+        {newSg.ingress.map((ingress, index) => (
+          <div key={index} className={styles.ingress}>
+            <div className={styles.ingressItems}>
+              <div className={styles.ingressItems}>
+                <input type="text" placeholder="Protocol" defaultValue={ingress.protocol} onChange={(e) => (dummy.ingress[index].protocol = e.target.value)} />
+                <input type="text" placeholder="From Port" defaultValue={ingress.from_port} onChange={(e) => (dummy.ingress[index].from_port = e.target.value)} />
+                <input type="text" placeholder="To Port" defaultValue={ingress.to_port} onChange={(e) => (dummy.ingress[index].to_port = e.target.value)} />
+              </div>
               {ingress.cidr_blocks.map((cidr_block, k) => (
                 <div key={k} className={styles.cidr_block}>
                   <input type="text" placeholder="CIDR Block" defaultValue={cidr_block} onChange={(e) => (dummy.ingress[index].cidr_blocks[k] = e.target.value)} />
@@ -102,11 +123,15 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
                   }
                 </div>
               ))}
-              {newSg.ingress.length - 1 === index && newSg.ingress.length > 1 && <button className={styles.deleteBtn} onClick={() => {
+            </div>
+            {newSg.ingress.length - 1 === index && newSg.ingress.length > 1 &&
+              <button className={styles.deleteBtn} onClick={() => {
                 dummy.ingress.splice(index, 1);
                 setNewSg(dummy);
-              }}>X</button>}
-              {newSg.ingress.length - 1 === index && <button className={styles.addBtn} onClick={() => {
+              }}>X</button>
+            }
+            {newSg.ingress.length - 1 === index &&
+              <button className={styles.addBtn} onClick={() => {
                 dummy.ingress.push({
                   protocol: "",
                   from_port: "",
@@ -114,10 +139,56 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
                   cidr_blocks: [""],
                 });
                 setNewSg(dummy);
-              }}>+</button>}
+              }}>+</button>
+            }
+
+          </div>
+        ))}
+        {newSg.egress.map((egress, index) => (
+          <div key={index} className={styles.egress}>
+            <div className={styles.egressItems}>
+              <div className={styles.egressItems}>
+                <input type="text" placeholder="Protocol" defaultValue={egress.protocol} onChange={(e) => (dummy.egress[index].protocol = e.target.value)} />
+                <input type="text" placeholder="From Port" defaultValue={egress.from_port} onChange={(e) => (dummy.egress[index].from_port = e.target.value)} />
+                <input type="text" placeholder="To Port" defaultValue={egress.to_port} onChange={(e) => (dummy.egress[index].to_port = e.target.value)} />
+              </div>
+              {egress.cidr_blocks.map((cidr_block, k) => (
+                <div key={k} className={styles.cidr_block}>
+                  <input type="text" placeholder="CIDR Block" defaultValue={cidr_block} onChange={(e) => (dummy.egress[index].cidr_blocks[k] = e.target.value)} />
+                  {egress.cidr_blocks.length - 1 === k && egress.cidr_blocks.length > 1 &&
+                    <button className={styles.deleteBtn} onClick={() => {
+                      dummy.egress[index].cidr_blocks.splice(k, 1);
+                      setNewSg(dummy);
+                    }}>X</button>
+                  }
+                  {egress.cidr_blocks.length - 1 === k &&
+                    <button className={styles.addBtn} onClick={() => {
+                      dummy.egress[index].cidr_blocks.push("");
+                      setNewSg(dummy);
+                    }}>+</button>
+                  }
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+            {newSg.egress.length - 1 === index && newSg.egress.length > 1 &&
+              <button className={styles.deleteBtn} onClick={() => {
+                dummy.egress.splice(index, 1);
+                setNewSg(dummy);
+              }}>X</button>
+            }
+            {newSg.egress.length - 1 === index &&
+              <button className={styles.addBtn} onClick={() => {
+                dummy.egress.push({
+                  protocol: "",
+                  from_port: "",
+                  to_port: "",
+                  cidr_blocks: [""],
+                });
+                setNewSg(dummy);
+              }}>+</button>
+            }
+          </div>
+        ))}
         <button
           onClick={() => {
             addSecurityGroup(dummy);
@@ -155,32 +226,79 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
     dummy = { ...securityGroups[index] };
     return (
       <div className={styles.securityGroupFocus}>
-        <input type="text" placeholder="Name" defaultValue={securityGroups[index].name} onChange={(e) => { dummy.name = e.target.value }} />
-        <input type="text" placeholder="Description" defaultValue={securityGroups[index].description} onChange={(e) => { dummy.description = e.target.value }} />
+        <div className={styles.securityGroupFocusHeader}>
+          <input type="text" placeholder="Name" defaultValue={securityGroups[index].name} onChange={(e) => { dummy.name = e.target.value }} />
+          <input type="text" placeholder="Description" defaultValue={securityGroups[index].description} onChange={(e) => { dummy.description = e.target.value }} />
+        </div>
         {securityGroups[index].ingress.map((ingress, ingressIndex) => (
           <div className={styles.ingress} key={ingressIndex}>
-            <input type="text" placeholder="Protocol" defaultValue={ingress.protocol} onChange={(e) => { dummy.ingress[ingressIndex].protocol = e.target.value }} />
-            <input type="text" placeholder="From Port" defaultValue={ingress.from_port} onChange={(e) => { dummy.ingress[ingressIndex].from_port = e.target.value }} />
-            <input type="text" placeholder="To Port" defaultValue={ingress.to_port} onChange={(e) => { dummy.ingress[ingressIndex].to_port = e.target.value }} />
-            {ingress.cidr_blocks.map((cidr_block, cidr_blockIndex) => (
-              <div className={styles.cidr_block} key={cidr_blockIndex}>
-                <input type="text" placeholder="CIDR Block" defaultValue={cidr_block} onChange={(e) => { dummy.ingress[ingressIndex].cidr_blocks[cidr_blockIndex] = e.target.value }} />
-                {ingress.cidr_blocks.length - 1 === cidr_blockIndex && ingress.cidr_blocks.length > 1 && <button className={styles.deleteBtn} onClick={() => {
-                  dummy.ingress[ingressIndex].cidr_blocks.splice(cidr_blockIndex, 1)
-                  updateSecurityGroup(dummy);
-                }}>X</button>}
-                {ingress.cidr_blocks.length - 1 === cidr_blockIndex && <button className={styles.addBtn} onClick={() => {
-                  dummy.ingress[ingressIndex].cidr_blocks.push("");
-                  updateSecurityGroup(dummy);
-                }}>+</button>}
+            <div className={styles.ingressItems}>
+              <div className={styles.ingressItems}>
+                <input type="text" placeholder="Protocol" defaultValue={ingress.protocol} onChange={(e) => { dummy.ingress[ingressIndex].protocol = e.target.value }} />
+                <input type="text" placeholder="From Port" defaultValue={ingress.from_port} onChange={(e) => { dummy.ingress[ingressIndex].from_port = e.target.value }} />
+                <input type="text" placeholder="To Port" defaultValue={ingress.to_port} onChange={(e) => { dummy.ingress[ingressIndex].to_port = e.target.value }} />
               </div>
-            ))}
-            {securityGroups[index].ingress.length - 1 === ingressIndex && securityGroups[index].ingress.length > 1 && <button className={styles.deleteBtn} onClick={() => {
-              dummy.ingress.splice(ingressIndex, 1)
+              {ingress.cidr_blocks.map((cidr_block, cidr_blockIndex) => (
+                <div className={styles.cidr_block} key={cidr_blockIndex}>
+                  <input type="text" placeholder="CIDR Block" defaultValue={cidr_block} onChange={(e) => { dummy.ingress[ingressIndex].cidr_blocks[cidr_blockIndex] = e.target.value }} />
+                  {ingress.cidr_blocks.length - 1 === cidr_blockIndex && ingress.cidr_blocks.length > 1 && <button className={styles.deleteBtn} onClick={() => {
+                    dummy.ingress[ingressIndex].cidr_blocks.splice(cidr_blockIndex, 1)
+                    updateSecurityGroup(dummy);
+                  }}>X</button>}
+                  {ingress.cidr_blocks.length - 1 === cidr_blockIndex && <button className={styles.addBtn} onClick={() => {
+                    dummy.ingress[ingressIndex].cidr_blocks.push("");
+                    updateSecurityGroup(dummy);
+                  }}>+</button>}
+                </div>
+              ))}
+            </div>
+            {securityGroups[index].ingress.length - 1 === ingressIndex && securityGroups[index].ingress.length > 1 &&
+              <button className={styles.deleteBtn} onClick={() => {
+                dummy.ingress.splice(ingressIndex, 1)
+                updateSecurityGroup(dummy);
+              }}>X</button>
+            }
+            {securityGroups[index].ingress.length - 1 === ingressIndex &&
+              <button className={styles.addBtn} onClick={() => {
+                dummy.ingress.push({
+                  protocol: "",
+                  from_port: "",
+                  to_port: "",
+                  cidr_blocks: [""],
+                });
+                updateSecurityGroup(dummy);
+              }}>+</button>
+            }
+          </div>
+        ))}
+        {securityGroups[index].egress.map((egress, egressIndex) => (
+          <div className={styles.egress} key={egressIndex}>
+            <div className={styles.egressItems}>
+              <div className={styles.egressItems}>
+                <input type="text" placeholder="Protocol" defaultValue={egress.protocol} onChange={(e) => { dummy.egress[egressIndex].protocol = e.target.value }} />
+                <input type="text" placeholder="From Port" defaultValue={egress.from_port} onChange={(e) => { dummy.egress[egressIndex].from_port = e.target.value }} />
+                <input type="text" placeholder="To Port" defaultValue={egress.to_port} onChange={(e) => { dummy.egress[egressIndex].to_port = e.target.value }} />
+              </div>
+              {egress.cidr_blocks.map((cidr_block, cidr_blockIndex) => (
+                <div className={styles.cidr_block} key={cidr_blockIndex}>
+                  <input type="text" placeholder="CIDR Block" defaultValue={cidr_block} onChange={(e) => { dummy.egress[egressIndex].cidr_blocks[cidr_blockIndex] = e.target.value }} />
+                  {egress.cidr_blocks.length - 1 === cidr_blockIndex && egress.cidr_blocks.length > 1 && <button className={styles.deleteBtn} onClick={() => {
+                    dummy.egress[egressIndex].cidr_blocks.splice(cidr_blockIndex, 1)
+                    updateSecurityGroup(dummy);
+                  }}>X</button>}
+                  {egress.cidr_blocks.length - 1 === cidr_blockIndex && <button className={styles.addBtn} onClick={() => {
+                    dummy.egress[egressIndex].cidr_blocks.push("");
+                    updateSecurityGroup(dummy);
+                  }}>+</button>}
+                </div>
+              ))}
+            </div>
+            {securityGroups[index].egress.length - 1 === egressIndex && securityGroups[index].egress.length > 1 && <button className={styles.deleteBtn} onClick={() => {
+              dummy.egress.splice(egressIndex, 1)
               updateSecurityGroup(dummy);
             }}>X</button>}
-            {securityGroups[index].ingress.length - 1 === ingressIndex && <button className={styles.addBtn} onClick={() => {
-              dummy.ingress.push({
+            {securityGroups[index].egress.length - 1 === egressIndex && <button className={styles.addBtn} onClick={() => {
+              dummy.egress.push({
                 protocol: "",
                 from_port: "",
                 to_port: "",

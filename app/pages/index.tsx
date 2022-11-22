@@ -59,17 +59,6 @@ export default function Home() {
     "us-east-1e",
     "us-east-1f",
   ]);
-  // useEffect(() => {
-  //   async function loadOutput() {
-  //     try {
-  //       const response = await axios.get("/api/output");
-  //       setAvailabilityZones(response.data.network.value.availability_zones);
-  //     } catch (error) {
-  //       setError(["Error loading terraform output"]);
-  //     }
-  //   }
-  //   loadOutput();
-  // }, []);
 
   const [json, setJson] = useState<JsonProps>(
     {
@@ -87,6 +76,16 @@ export default function Home() {
                 "0.0.0.0/0"
               ]
             }
+          ],
+          "egress": [
+            {
+              "protocol": "tcp",
+              "from_port": "22",
+              "to_port": "22",
+              "cidr_blocks": [
+                "0.0.0.0/0"
+              ]
+            }
           ]
         },
         {
@@ -94,6 +93,16 @@ export default function Home() {
           "name": "security_group_2",
           "description": "security_group_2_description",
           "ingress": [
+            {
+              "protocol": "tcp",
+              "from_port": "22",
+              "to_port": "22",
+              "cidr_blocks": [
+                "0.0.0.0/0"
+              ]
+            }
+          ],
+          "egress": [
             {
               "protocol": "tcp",
               "from_port": "22",
@@ -222,7 +231,7 @@ export default function Home() {
           {page === 3 && (<Users json={json} setJson={setJson} page={page} setPage={setPage} />)}
           {page === 4 && (<Resume json={json} page={page} setPage={setPage} />)}
         </div>
-        <div className={styles.map}>
+        <div>
           <button onClick={() => setPage(0)}>Security Groups</button>
           <button onClick={() => setPage(1)}>Instances</button>
           <button onClick={() => setPage(2)}>User Groups</button>

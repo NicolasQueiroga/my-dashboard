@@ -10,6 +10,7 @@ interface SecurityGroupProps {
     name: string;
     description: string;
     ingress: IngressProps[];
+    egress: IngressProps[];
 }
 
 interface PolicyProps {
