@@ -6,11 +6,25 @@
     flex-wrap: nowrap;
 }
 
-.title {
-
-}
+.title {}
 
 /* SEC GROUPS */
+.noSg {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
 .securityGroups {
     display: flex;
     flex-wrap: wrap;
@@ -38,20 +52,16 @@
     flex-direction: column;
     align-items: center;
 }
+
 .securityGroup:hover {
     background: #272727;
 }
 
-.securityGroupName {
+.securityGroupName {}
 
-}
-.securityGroupDescription {
+.securityGroupDescription {}
 
-}
-
-.deleteBtn {
-
-}
+.deleteBtn {}
 
 /* SEC GROUP */
 .securityGroupFocus {
@@ -73,16 +83,18 @@
     flex-direction: row;
     padding: 20px 0px;
 }
+
 .ingressItems, .egressItems {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
+
 .ingressItem, .egressItem {
     display: flex;
     flex-direction: row;
 }
+
 .cidr_block {
     width: 100%;
 }
-

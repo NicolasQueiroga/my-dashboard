@@ -209,7 +209,11 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
   }
 
   function showSecurityGroups() {
-    return (
+    return securityGroups.length === 0 ? (
+      <div className={styles.noSg}>
+        <p>No Security Groups</p>
+      </div>
+    ) : (
       <div className={styles.securityGroups}>
         {securityGroups.map((securityGroup) => (
           <div className={styles.securityGroup} key={securityGroup.id}>
@@ -325,10 +329,6 @@ export default function SecurityGroups({ json, setJson, page, setPage }: ({ json
       {activeId !== "" && !createSg && showSecurityGroup(securityGroups.findIndex((securityGroup) => securityGroup.id === activeId))}
       {createSg && createSecurityGroup()}
       {!createSg && activeId === "" && <button className={styles.addBtn} onClick={() => setCreateSg(true)}>Create Security Group</button>}
-      <div className={styles.pageBtns}>
-        <p className={styles.page}>{page} / 4</p>
-        <button onClick={() => setPage(page + 1)} >Next</button>
-      </div>
     </div>
   )
 }

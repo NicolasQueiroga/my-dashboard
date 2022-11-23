@@ -230,11 +230,6 @@ export default function UserGroups({ json, setJson, page, setPage }: ({ json: Js
       {activeUG !== "" && !createUG && showUserGroup(userGroups.findIndex((ug) => ug.id === activeUG))}
       {createUG && createUserGroup()}
       {!createUG && activeUG === "" && <button className={styles.addBtn} onClick={() => setCreateUG(true)}>Create Security Group</button>}
-      <div className={styles.pageBtns}>
-        <button onClick={() => setPage(page - 1)} >Previous</button>
-        <p className={styles.page}>{page} / 4</p>
-        <button onClick={() => setPage(page + 1)} >Next</button>
-      </div>
     </div>
   )
 }

@@ -13,7 +13,7 @@ export default function Resume({ json, page, setPage }: ({ json: JsonProps, page
 
     async function launch() {
         try {
-            const response = await axios.post(LOUNCH_ENDPOINT, {json});
+            const response = await axios.post(LOUNCH_ENDPOINT, { json });
             console.log(response);
         } catch (error) {
             console.log(error);
@@ -177,12 +177,6 @@ export default function Resume({ json, page, setPage }: ({ json: JsonProps, page
                     <p className={styles.usersTitle}>Users</p>
                     {users.length > 0 && showUsers()}
                 </div>
-            </div>
-
-            <div className={styles.pageBtns}>
-                <button onClick={() => setPage(page - 1)} >Previous</button>
-                <p className={styles.page}>{page} / 4</p>
-                <button onClick={async () => await launch()} >Launch</button>
             </div>
         </div>
     )

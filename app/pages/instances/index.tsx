@@ -233,11 +233,6 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
           }}>Create Instance</button>
         </div>
       )}
-      <div className={styles.pageBtns}>
-        <button onClick={() => setPage(page - 1)} >Previous</button>
-        <p className={styles.page}>{page} / 4</p>
-        <button onClick={() => setPage(page + 1)} >Next</button>
-      </div>
     </div>
   )
 }

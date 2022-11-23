@@ -9,6 +9,7 @@ import Instances from './instances/index';
 import UserGroups from './user-groups/index';
 import Users from './users/index';
 import Resume from './resume/index';
+import Controller from '../components/Controller';
 
 const DEBUG = false;
 const VARIABLES_ENDPOINT = "http://0.0.0.0:8000/api/aws/variables/";
@@ -231,13 +232,7 @@ export default function Home() {
           {page === 3 && (<Users json={json} setJson={setJson} page={page} setPage={setPage} />)}
           {page === 4 && (<Resume json={json} page={page} setPage={setPage} />)}
         </div>
-        <div>
-          <button onClick={() => setPage(0)}>Security Groups</button>
-          <button onClick={() => setPage(1)}>Instances</button>
-          <button onClick={() => setPage(2)}>User Groups</button>
-          <button onClick={() => setPage(3)}>Users</button>
-          <button onClick={() => setPage(4)}>Resume</button>
-        </div>
+        <Controller page={page} setPage={setPage} />
       </main >
       <footer className={styles.footer}>
         <a
