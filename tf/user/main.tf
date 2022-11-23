@@ -42,7 +42,6 @@ resource "aws_iam_user_policy_attachment" "user_policy_attachment" {
 resource "aws_iam_user_login_profile" "profile" {
   for_each                = { for user in var.users : user.name => user }
   user                    = aws_iam_user.user[each.value.name].name
-#   pgp_key                 = var.pgp_key
   password_length         = 13
   password_reset_required = true
 }

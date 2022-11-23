@@ -38,12 +38,3 @@ resource "aws_eip" "eip" {
   vpc      = true
   instance = aws_instance.ec2_instance[each.value.name].id
 }
-
-# attach security groups from var.security_groups to each instance
-# resource "aws_network_interface_sg_attachment" "sg_attachment" {
-#   for_each = { for instance in var.instances : instance.name => instance }
-#   # get security group ids if var.security_groups.tags.name is in each.value.security_groups_ids
-#   security_group_id = [for id, x in var.security_groups : id if contains(each.value.security_groups_ids, var.security_groups[id].tags.Name)]
-#   network_interface_id = aws_instance.ec2_instance[each.value.name].primary_network_interface_id
-# }
-

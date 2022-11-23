@@ -1,40 +1,27 @@
 import styles from '../../styles/Instances.module.css'
-import { useForm } from "react-hook-form";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 
-/*
-"instances": [
-        {
-          "name": "instance_1",
-          "ami": "ami-0ee23bfc74a881de5",
-          "instance_type": "t2.micro",
-          "region": "us-east-1a",
-          "security_groups_ids": [
-            "1",
-            "2"
-          ]
-        },
-        {
-          "name": "instance_2",
-          "ami": "ami-0ee23bfc74a881de5",
-          "instance_type": "t2.micro",
-          "region": "us-east-1a",
-          "security_groups_ids": [
-            "2"
-          ]
-        }
-      ]
-*/
 
-const amiList = [
-  "ami-08c40ec9ead489470",
-  "ami-0149b2da6ceec4bb0",
-  "ami-0ee23bfc74a881de5",
-];
-const distroDict = {
-  "ami-08c40ec9ead489470": "Ubuntu 22.04",
-  "ami-0149b2da6ceec4bb0": "Ubuntu 20.04",
-  "ami-0ee23bfc74a881de5": "Ubuntu 18.04",
+const ami_reference = {
+  "us-east-1": "ami-00a0e0b890ae17d65",
+  "us-east-2": "ami-0b4577d77dac11b84",
+  "us-west-1": "ami-07ca31583160e0a93",
+  "us-west-2": "ami-0cc5d32378afd3b57",
+  "sa-east-1": "ami-084fadaa5d7882916",
+  "eu-west-1": "ami-082bec92abb02aba4",
+  "eu-west-2": "ami-0f0741503c767a317",
+  "eu-west-3": "ami-03a5d4b9a3dba6ebe",
+  "eu-central-1": "ami-0a474432ef48429a7",
+  "ap-southeast-1": "ami-0ec559e18e8ed6466",
+  "ap-southeast-2": "ami-0bb85ffded6e32670",
+  "ap-northeast-1": "ami-04705b95f49850f5e",
+  "ap-northeast-2": "ami-0cf362b88b0395b94",
+  "ap-northeast-3": "ami-0cf362b88b0395b94",
+  "ca-central-1": "ami-0191b23c592e9a01b",
+  "cn-north-1": "ami-0764541358866f84e",
+  "cn-northwest-1": "ami-02441dea73a15a612",
+  "us-gov-west-1": "ami-02642d561d662175f",
+  "us-gov-east-1": "ami-01c308292da9fe7f5"
 }
 
 
@@ -91,9 +78,9 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
           return (
             <div key={index} className={styles.instance}>
               <p className={styles.instanceName} onClick={() => { setActiveInstance(instance.name) }}>{instance.name}</p>
-              <p className={styles.instanceDescription}>{(distroDict as any)[instance.ami]}</p>
-              <p className={styles.instanceType}>{instance.instance_type}</p>
               <p className={styles.instanceRegion}>{instance.region}</p>
+              <p className={styles.instanceType}>{instance.instance_type}</p>
+              <p className={styles.instanceAMI}>{(ami_reference as any)[instance.region]}</p>
               <div className={styles.instanceSecurityGroups}>
                 {instance.security_groups_ids.map((sg, k) => {
                   let sgName = "";
@@ -125,7 +112,15 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
     return (
       <div className={styles.instance}>
         <input type="text" placeholder="Name" defaultValue={dummy.name} onChange={(e) => { dummy.name = e.target.value }} />
-        <input type="text" defaultValue={dummy.ami} onChange={(e) => { dummy.ami = e.target.value }} />
+        <select defaultValue={dummy.region} onChange={(e) => {
+          dummy.region = e.target.value
+          dummy.ami = (ami_reference as any)[dummy.region];
+        }} >
+          {Object.keys(ami_reference).map((region, index) =>
+          (
+            <option key={index} defaultValue={dummy.region}>{region}</option>
+          ))}
+        </select>
         <select value={dummy.instance_type} onChange={(e) => { dummy.instance_type = e.target.value }}>
           {instanceTypeList.map((instanceType, index) => {
             return (
@@ -133,7 +128,6 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
             )
           })}
         </select>
-        <input type="text" defaultValue={dummy.region} onChange={(e) => { dummy.region = e.target.value }} />
         <div className={styles.instanceSecurityGroups}>
           {json.security_groups.map((sg, k) => {
             return (
@@ -167,9 +161,16 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
         <input type="text" name="name" placeholder="name" onChange={(e) => {
           dummy.name = e.target.value
         }} />
-        <input type="text" placeholder="AMI" name="ami" onChange={(e) => {
-          dummy.ami = e.target.value
-        }} />
+        <select name="region" onChange={(e) => {
+          dummy.region = e.target.value
+          dummy.ami = (ami_reference as any)[dummy.region];
+        }}>
+          <option value="">Select Region</option>
+          {Object.keys(ami_reference).map((region, index) =>
+          (
+            <option key={index} value={region}>{region}</option>
+          ))}
+        </select>
         <select name="instance_type" onChange={(e) => {
           dummy.instance_type = e.target.value
         }}>
@@ -180,9 +181,6 @@ export default function Instances({ json, setJson, page, setPage, availabilityZo
             )
           })}
         </select>
-        <input type="text" placeholder="Region" name="region" onChange={(e) => {
-          dummy.region = e.target.value
-        }} />
 
         <div className={styles.sgCheckbox}>
           {json.security_groups.map((sg, index) => {

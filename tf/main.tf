@@ -16,7 +16,6 @@ module "ec2" {
 module "user" {
   source    = "./user"
   users = var.users
-  pgp_key = var.pgp_key
 }
 
 module "groups" {
