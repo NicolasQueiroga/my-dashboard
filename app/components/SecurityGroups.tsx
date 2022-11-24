@@ -1,4 +1,4 @@
-import styles from '../../styles/SecurityGroups.module.css'
+import styles from '../styles/components/SecurityGroups.module.css'
 import { useEffect, useState } from "react";
 
 let dummy = {
@@ -24,7 +24,7 @@ let dummy = {
 };
 
 
-export default function SecurityGroups({ json, setJson, page, setPage }: ({ json: JsonProps, setJson: Function, page: number, setPage: Function })) {
+export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, setJson: Function })) {
   const [securityGroups, setSecurityGroups] = useState<Array<SecurityGroupProps>>(json.security_groups);
   const [newSg, setNewSg] = useState<SecurityGroupProps>(dummy);
   useEffect(() => {

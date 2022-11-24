@@ -1,14 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/pages/Home.module.css'
 import { useForm } from "react-hook-form";
 import { useState, useEffect, use } from "react";
 import axios from "axios";
-import SecurityGroups from "./security-groups/index"
-import Instances from './instances/index';
-import UserGroups from './user-groups/index';
-import Users from './users/index';
-import Resume from './resume/index';
+import SecurityGroups from "../components/SecurityGroups"
+import Instances from '../components/Instances';
+import UserGroups from '../components/UserGroups';
+import Users from '../components/Users';
+import Resume from '../components/Resume';
 import Controller from '../components/Controller';
 
 const DEBUG = false;
@@ -17,49 +17,7 @@ const VARIABLES_ENDPOINT = "http://0.0.0.0:8000/api/aws/variables/";
 
 
 export default function Home() {
-  const [error, setError] = useState<Array<string> | null>(null);
-  const { register, handleSubmit } = useForm();
   const [page, setPage] = useState<number>(DEBUG ? 3 : 0);
-
-  const maxPage = 4;
-  const [activeSg, setActiveSg] = useState<string>("");
-  const [createNewSg, setCreateNewSg] = useState<boolean>(false);
-  const [createNewInstance, setCreateNewInstance] = useState<boolean>(false);
-  const [createNewUg, setCreateNewUg] = useState<boolean>(false);
-  const [createNewUser, setCreateNewUser] = useState<boolean>(false);
-  const [activeUg, setActiveUg] = useState<string>("");
-
-  const actionsList = [
-  ];
-  const resourcesList = [
-  ];
-
-  const amiList = [
-    "ami-08c40ec9ead489470",
-    "ami-0149b2da6ceec4bb0",
-    "ami-0ee23bfc74a881de5",
-  ];
-  const distroDict = {
-    "ami-08c40ec9ead489470": "Ubuntu 22.04",
-    "ami-0149b2da6ceec4bb0": "Ubuntu 20.04",
-    "ami-0ee23bfc74a881de5": "Ubuntu 18.04",
-  }
-
-
-  const instanceTypeList = [
-    "t2.micro",
-    "t2.small",
-    "t2.medium",
-  ];
-
-  const [availabilityZones, setAvailabilityZones] = useState<Array<string>>([
-    "us-east-1a",
-    "us-east-1b",
-    "us-east-1c",
-    "us-east-1d",
-    "us-east-1e",
-    "us-east-1f",
-  ]);
 
   const [json, setJson] = useState<JsonProps>(
     {
@@ -208,7 +166,7 @@ export default function Home() {
         const response = await axios.get(VARIABLES_ENDPOINT);
         setJson(response.data);
       } catch (error) {
-        setError(["Error loading json"]);
+        console.log(error);
       }
     }
     loadJson();
@@ -226,11 +184,11 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}> My AWS dashboard </h1>
         <div className={styles.container}>
-          {page === 0 && (<SecurityGroups json={json} setJson={setJson} page={page} setPage={setPage} />)}
-          {page === 1 && (<Instances json={json} setJson={setJson} page={page} setPage={setPage} availabilityZones={availabilityZones} />)}
-          {page === 2 && (<UserGroups json={json} setJson={setJson} page={page} setPage={setPage} />)}
-          {page === 3 && (<Users json={json} setJson={setJson} page={page} setPage={setPage} />)}
-          {page === 4 && (<Resume json={json} page={page} setPage={setPage} />)}
+          {page === 0 && (<SecurityGroups json={json} setJson={setJson} />)}
+          {page === 1 && (<Instances json={json} setJson={setJson} />)}
+          {page === 2 && (<UserGroups json={json} setJson={setJson} />)}
+          {page === 3 && (<Users json={json} setJson={setJson} />)}
+          {page === 4 && (<Resume json={json} setPage={setPage} />)}
         </div>
         <Controller page={page} setPage={setPage} />
       </main >

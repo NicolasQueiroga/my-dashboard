@@ -1,10 +1,9 @@
-import styles from '../../styles/Resume.module.css'
-import { useState } from "react";
+import styles from '../styles/components/Resume.module.css'
 import axios from "axios";
 
 const LOUNCH_ENDPOINT = "http://0.0.0.0:8000/api/aws/launch/";
 
-export default function Resume({ json, page, setPage }: ({ json: JsonProps, page: number, setPage: Function })) {
+export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: Function })) {
     const securityGroups: Array<SecurityGroupProps> = json.security_groups;
     const instances: Array<InstanceProps> = json.instances;
     const userGroups: Array<UserGroupProps> = json.user_groups;

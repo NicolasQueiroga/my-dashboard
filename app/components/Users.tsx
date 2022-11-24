@@ -1,12 +1,10 @@
-import styles from '../../styles/Users.module.css'
-import { useForm } from "react-hook-form";
-import { useState, useEffect, use } from "react";
+import styles from '../styles/components/Users.module.css'
+import { useState, useEffect } from "react";
 
 
-export default function Users({ json, setJson, page, setPage }: ({ json: JsonProps, setJson: Function, page: number, setPage: Function })) {
+export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Function })) {
   const [users, setUsers] = useState<Array<UserProps>>(json.users);
   const [createU, setCreateU] = useState(false);
-  const [addUserRestrictions, setAddUserRestrictions] = useState(false);
   const [activeUser, setActiveUser] = useState("");
 
   let dummy: UserProps = {

@@ -1,9 +1,8 @@
-import styles from '../../styles/UserGroups.module.css'
-import { useForm } from "react-hook-form";
-import { useState, useEffect, use } from "react";
+import styles from '../styles/components/UserGroups.module.css'
+import { useState, useEffect } from "react";
 
 
-export default function UserGroups({ json, setJson, page, setPage }: ({ json: JsonProps, setJson: Function, page: number, setPage: Function })) {
+export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJson: Function })) {
   const [userGroups, setUserGroups] = useState<Array<UserGroupProps>>(json.user_groups);
   useEffect(() => {
     setUserGroups(json.user_groups);

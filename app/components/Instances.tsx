@@ -1,4 +1,4 @@
-import styles from '../../styles/Instances.module.css'
+import styles from '../styles/components/Instances.module.css'
 import { useState, useEffect } from "react";
 
 
@@ -32,7 +32,7 @@ const instanceTypeList = [
 ];
 
 
-export default function Instances({ json, setJson, page, setPage, availabilityZones }: ({ json: JsonProps, setJson: Function, page: number, setPage: Function, availabilityZones: string[] })) {
+export default function Instances({ json, setJson }: ({ json: JsonProps, setJson: Function })) {
   const [instances, setInstances] = useState(json.instances);
   const [createI, setCreateI] = useState(false);
   const [activeInstance, setActiveInstance] = useState("");
