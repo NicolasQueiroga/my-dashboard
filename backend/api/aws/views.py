@@ -50,7 +50,9 @@ def launch(request, *args, **kwargs):
         os.chdir('tf')
     else:
         os.chdir('../tf')
-    os.system(f"terraform init")
+    if not os.path.exists('./.terraform'):
+        os.system(f"terraform init")
+        
     create_general_json(request)
     create_user_json(request)
 
