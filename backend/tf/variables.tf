@@ -10,9 +10,6 @@ variable "access_ip" {
   type = string
 }
 
-variable "pgp_key" {
-  type = string
-}
 
 // ------------------------------
 variable "aws_region" {
@@ -38,6 +35,23 @@ variable "security_groups" {
       cidr_blocks = list(string)
     }))
   }))
+  default = [ {
+    description = "default security group"
+    ingress = [ {
+      cidr_blocks = [ "0.0.0.0/0" ]
+      from_port = 22
+      protocol = "tcp"
+      to_port = 22
+    } ]
+    id = "1"
+    egress = [ {
+      cidr_blocks = [ "0.0.0.0/0" ]
+      from_port = 22
+      protocol = "tcp"
+      to_port = 22
+    } ]
+    name = "default"
+  } ]
 }
 
 variable "user_groups" {

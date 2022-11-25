@@ -177,6 +177,7 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
                     {users.length > 0 && showUsers()}
                 </div>
             </div>
+            <button className={styles.btn} onClick={async () => {await launch();}}>Generate</button>
         </div>
     )
 }

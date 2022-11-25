@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: .
+    command: >
+      sh -c "python api/manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    volumes:
+      - ./api:/home/api
+      - ./tf:/home/tf
