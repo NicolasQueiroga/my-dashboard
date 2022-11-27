@@ -1,19 +1,17 @@
 import styles from '../styles/components/Resume.module.css'
 import axios from "axios";
-import Loading from './Loading';
-import { useState } from 'react';
 
 const LOUNCH_ENDPOINT = "http://0.0.0.0:8000/api/aws/launch/";
 
-export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: Function })) {
+export default function Resume({ json, setPage, setLoading }: ({ json: JsonProps, setPage: Function, setLoading: Function })) {
     const securityGroups: Array<SecurityGroupProps> = json.security_groups;
     const instances: Array<InstanceProps> = json.instances;
     const userGroups: Array<UserGroupProps> = json.user_groups;
     const users: Array<UserProps> = json.users;
-    const [loading, setLoading] = useState<boolean>(false);
 
     async function launch() {
         try {
+            confirm("To confirm request, press OK :)");
             setLoading(true);
             const response = await axios.post(LOUNCH_ENDPOINT, { json });
             console.log(response);
@@ -157,11 +155,7 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
         )
     }
 
-    return loading ? (
-        <>
-            <Loading />
-        </>
-    ) : (
+    return (
         <div className={styles.container}>
             <p className={styles.title}>Resume</p>
 

@@ -10,6 +10,7 @@ import UserGroups from '../components/UserGroups';
 import Users from '../components/Users';
 import Resume from '../components/Resume';
 import Controller from '../components/Controller';
+import Loading from '../components/Loading';
 
 const DEBUG = false;
 const VARIABLES_ENDPOINT = "http://0.0.0.0:8000/api/aws/variables/";
@@ -18,6 +19,7 @@ const VARIABLES_ENDPOINT = "http://0.0.0.0:8000/api/aws/variables/";
 
 export default function Home() {
   const [page, setPage] = useState<number>(DEBUG ? 3 : 0);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [json, setJson] = useState<JsonProps>(
     {
@@ -183,14 +185,20 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}> My AWS dashboard </h1>
-        <div className={styles.container}>
-          {page === 0 && (<SecurityGroups json={json} setJson={setJson} />)}
-          {page === 1 && (<Instances json={json} setJson={setJson} />)}
-          {page === 2 && (<UserGroups json={json} setJson={setJson} />)}
-          {page === 3 && (<Users json={json} setJson={setJson} />)}
-          {page === 4 && (<Resume json={json} setPage={setPage} />)}
-        </div>
-        <Controller page={page} setPage={setPage} />
+        {!loading && (
+          <>
+            <div className={styles.container}>
+              {page === 0 && (<SecurityGroups json={json} setJson={setJson} />)}
+              {page === 1 && (<Instances json={json} setJson={setJson} />)}
+              {page === 2 && (<UserGroups json={json} setJson={setJson} />)}
+              {page === 3 && (<Users json={json} setJson={setJson} />)}
+              {page === 4 && (<Resume json={json} setPage={setPage} setLoading={setLoading} />)}
+            </div>
+            <Controller page={page} setPage={setPage} />
+
+          </>
+        )}
+        {loading && <Loading />}
       </main >
       <footer className={styles.footer}>
         <a
