@@ -1,5 +1,6 @@
 import styles from '../styles/components/Resume.module.css'
 import axios from "axios";
+import Loading from './Loading';
 
 const LOUNCH_ENDPOINT = "http://0.0.0.0:8000/api/aws/launch/";
 
@@ -8,12 +9,14 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
     const instances: Array<InstanceProps> = json.instances;
     const userGroups: Array<UserGroupProps> = json.user_groups;
     const users: Array<UserProps> = json.users;
-
+    const [loading, setLoading] = useState<boolean>(false);
 
     async function launch() {
         try {
+            setLoading(true);
             const response = await axios.post(LOUNCH_ENDPOINT, { json });
             console.log(response);
+            setLoading(false);
         } catch (error) {
             console.log(error);
         }
@@ -153,7 +156,11 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
         )
     }
 
-    return (
+    return loading ? (
+        <>
+            <Loading />
+        </>
+    ) : (
         <div className={styles.container}>
             <p className={styles.title}>Resume</p>
 
