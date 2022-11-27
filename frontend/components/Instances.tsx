@@ -160,7 +160,7 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
     return (
       <div className={styles.createInstance}>
         <h2>Create Instance</h2>
-        <input type="text" name="name" placeholder="name" onChange={(e) => {
+        <input type="text" name="name" placeholder="Instance Name" onChange={(e) => {
           dummy.name = e.target.value
         }} />
         <select name="region" onChange={(e) => {

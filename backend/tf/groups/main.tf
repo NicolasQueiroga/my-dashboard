@@ -18,8 +18,8 @@ data "aws_iam_policy_document" "ec2_policy" {
 # create the policy
 resource "aws_iam_policy" "ec2_policy" {
   for_each = { for group in var.user_groups : group.name => group }
-  name        = each.value.restrictions.name
-  description = each.value.restrictions.description
+  # name        = each.value.restrictions.name
+  # description = each.value.restrictions.description
   policy      = data.aws_iam_policy_document.ec2_policy[each.value.name].json
 }
 

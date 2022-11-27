@@ -81,7 +81,7 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
             <>
                 {userGroups.map((userGroup: UserGroupProps, k) => (
                     <div className={styles.userGroup} key={k}>
-                        <p className={styles.name}>{userGroup.id} {userGroup.name}</p>
+                        <p className={styles.name}>{userGroup.name}</p>
                         <p className={styles.description}>{userGroup.description}</p>
                         <div className={styles.restrictions}>
                             <div className={styles.actions}>

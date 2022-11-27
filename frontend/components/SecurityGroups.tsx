@@ -15,10 +15,10 @@ let dummy = {
   ],
   egress: [
     {
-      protocol: "",
-      from_port: "",
-      to_port: "",
-      cidr_blocks: [""],
+      protocol: "-1",
+      from_port: "0",
+      to_port: "0",
+      cidr_blocks: ["0.0.0.0/0"],
     },
   ],
 };
@@ -55,10 +55,10 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
         ],
         egress: [
           {
-            protocol: "",
-            from_port: "",
-            to_port: "",
-            cidr_blocks: [""],
+            protocol: "-1",
+            from_port: "0",
+            to_port: "0",
+            cidr_blocks: ["0.0.0.0/0"],
           },
         ],
       }
@@ -94,7 +94,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
     dummy = { ...newSg };
     return (
       <div className={styles.securityGroupFocus}>
-        <h2>Create Instance</h2>
+        <h2>Create Security Group</h2>
         <div className={styles.securityGroupFocusHeader}>
           <input type="text" placeholder="Name" defaultValue={newSg.name} onChange={(e) => (dummy.name = e.target.value)} />
           <input type="text" placeholder="Description" defaultValue={newSg.description} onChange={(e) => (dummy.description = e.target.value)} />
@@ -111,7 +111,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
                 <div key={k} className={styles.cidr_block}>
                   <input type="text" placeholder="CIDR Block" defaultValue={cidr_block} onChange={(e) => (dummy.ingress[index].cidr_blocks[k] = e.target.value)} />
                   {ingress.cidr_blocks.length - 1 === k && ingress.cidr_blocks.length > 1 &&
-                    <button className={styles.deleteBtn} onClick={() => {
+                    <button onClick={() => {
                       dummy.ingress[index].cidr_blocks.splice(k, 1);
                       setNewSg(dummy);
                     }}>X</button>
@@ -126,7 +126,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
               ))}
             </div>
             {newSg.ingress.length - 1 === index && newSg.ingress.length > 1 &&
-              <button className={styles.deleteBtn} onClick={() => {
+              <button onClick={() => {
                 dummy.ingress.splice(index, 1);
                 setNewSg(dummy);
               }}>X</button>
@@ -149,15 +149,15 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
           <div key={index} className={styles.egress}>
             <div className={styles.egressItems}>
               <div className={styles.egressItems}>
-                <input type="text" placeholder="Protocol" defaultValue={egress.protocol} onChange={(e) => (dummy.egress[index].protocol = e.target.value)} />
-                <input type="text" placeholder="From Port" defaultValue={egress.from_port} onChange={(e) => (dummy.egress[index].from_port = e.target.value)} />
-                <input type="text" placeholder="To Port" defaultValue={egress.to_port} onChange={(e) => (dummy.egress[index].to_port = e.target.value)} />
+                <input type="text" placeholder="Protocol" defaultValue="-1" onChange={(e) => (dummy.egress[index].protocol = e.target.value)} />
+                <input type="text" placeholder="From Port" defaultValue="0" onChange={(e) => (dummy.egress[index].from_port = e.target.value)} />
+                <input type="text" placeholder="To Port" defaultValue="0" onChange={(e) => (dummy.egress[index].to_port = e.target.value)} />
               </div>
               {egress.cidr_blocks.map((cidr_block, k) => (
                 <div key={k} className={styles.cidr_block}>
-                  <input type="text" placeholder="CIDR Block" defaultValue={cidr_block} onChange={(e) => (dummy.egress[index].cidr_blocks[k] = e.target.value)} />
+                  <input type="text" placeholder="CIDR Block" defaultValue="0.0.0.0/0" onChange={(e) => (dummy.egress[index].cidr_blocks[k] = e.target.value)} />
                   {egress.cidr_blocks.length - 1 === k && egress.cidr_blocks.length > 1 &&
-                    <button className={styles.deleteBtn} onClick={() => {
+                    <button onClick={() => {
                       dummy.egress[index].cidr_blocks.splice(k, 1);
                       setNewSg(dummy);
                     }}>X</button>
@@ -172,7 +172,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
               ))}
             </div>
             {newSg.egress.length - 1 === index && newSg.egress.length > 1 &&
-              <button className={styles.deleteBtn} onClick={() => {
+              <button onClick={() => {
                 dummy.egress.splice(index, 1);
                 setNewSg(dummy);
               }}>X</button>

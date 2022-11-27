@@ -224,7 +224,8 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
     dummy = { ...newUser };
     return (
       <div className={styles.userFocus}>
-        <input type="text" name="username" placeholder="name" onChange={(e) => {
+        <h2>Create User</h2>
+        <input type="text" name="username" placeholder="Username" onChange={(e) => {
           dummy.name = e.target.value;
         }} />
         <br />
@@ -250,10 +251,10 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
         </div>
         <br />
         <div className={styles.restrictionsContainer}>
-          <input type="text" name="restrictionsName" placeholder="restriction name" onChange={(e) => {
+          <input type="text" name="restrictionsName" placeholder="Restriction Name" onChange={(e) => {
             dummy.restrictions.name = e.target.value;
           }} />
-          <input type="text" name="description" placeholder="description" onChange={(e) => {
+          <input type="text" name="description" placeholder="Description" onChange={(e) => {
             dummy.restrictions.description = e.target.value;
           }} />
           <div className={styles.restrictions}>
@@ -262,7 +263,7 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
               {newUser.restrictions.actions.map((action, index) => {
                 return (
                   <div className={styles.action} key={index}>
-                    <input className={styles.restrictionAction} type="text" name="action" placeholder="action" onChange={(e) => {
+                    <input className={styles.restrictionAction} type="text" name="action" placeholder="Action" onChange={(e) => {
                       dummy.restrictions.actions[index] = e.target.value;
                     }} />
                     {newUser.restrictions.actions.length - 1 === index && (
@@ -288,7 +289,7 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
               {newUser.restrictions.resources.map((resource, index) => {
                 return (
                   <div className={styles.resource} key={index}>
-                    <input className={styles.restrictionResource} type="text" name="resource" placeholder="resource" onChange={(e) => {
+                    <input className={styles.restrictionResource} type="text" name="resource" placeholder="Resource" onChange={(e) => {
                       dummy.restrictions.resources[index] = e.target.value;
                     }} />
                     {newUser.restrictions.resources.length - 1 === index && (

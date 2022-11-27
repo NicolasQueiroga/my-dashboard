@@ -39,6 +39,7 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
     dummy = { ...newUG };
     return (
       <div className={styles.userGroupFocus}>
+        <h2>Create User Group</h2>
         <div className={styles.userGroupFocusHeader}>
           <input type="text" placeholder="Name" defaultValue={newUG.name} onChange={(e) => (dummy.name = e.target.value)} />
           <input type="text" placeholder="Description" defaultValue={newUG.description} onChange={(e) => (dummy.description = e.target.value)} />
