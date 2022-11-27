@@ -143,13 +143,14 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
     ) : (
       <div className={styles.userGroups}>
         {userGroups.map((userGroup) => (
-          <div className={styles.userGroup} key={userGroup.id}>
-            <p className={styles.userGroupName} onClick={() => setActiveUG(userGroup.id)}>{userGroup.name}</p>
+          <div className={styles.userGroup} key={userGroup.id} onClick={() => setActiveUG(userGroup.id)}>
+            <p className={styles.userGroupName}>{userGroup.name}</p>
             <p className={styles.userGroupDescription}>{userGroup.description}</p>
             <button
               className={styles.userGroupButton}
-              onClick={() => {
+              onClick={(e) => {
                 deleteUserGroup(userGroup.id);
+                e.stopPropagation();
               }}
             >Delete</button>
           </div>

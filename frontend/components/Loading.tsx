@@ -1,7 +1,7 @@
 import styles from '../styles/components/Loading.module.css';
 
 
-export default function Loading({ page, setPage }: ({ page: number, setPage: Function })) {
+export default function Loading() {
     return (
         <div className={styles.loading}>
             <h1>Generating...</h1>

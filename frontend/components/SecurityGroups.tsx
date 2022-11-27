@@ -217,10 +217,10 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
     ) : (
       <div className={styles.securityGroups}>
         {securityGroups.map((securityGroup) => (
-          <div className={styles.securityGroup} key={securityGroup.id}>
-            <p className={styles.securityGroupName} onClick={() => setActiveId(securityGroup.id)}>{securityGroup.name}</p>
+          <div className={styles.securityGroup} key={securityGroup.id} onClick={() => setActiveId(securityGroup.id)}>
+            <p className={styles.securityGroupName}>{securityGroup.name}</p>
             <p className={styles.securityGroupDescription}>{securityGroup.description}</p>
-            <button className={styles.deleteBtn} onClick={() => deleteSecurityGroup(securityGroup.id)}>Delete</button>
+            <button className={styles.deleteBtn} onClick={(e) => { deleteSecurityGroup(securityGroup.id); e.stopPropagation(); }}>Delete</button>
           </div>
         ))}
       </div>

@@ -99,6 +99,7 @@
 
 .deleteBtn {
     margin-top: auto;
+    z-index: 999;
 }
 
 

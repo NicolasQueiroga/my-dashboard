@@ -90,8 +90,8 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
     ) : (
       <div className={styles.users}>
         {users.map((user, index) => (
-          <div className={styles.user} key={index}>
-            <p className={styles.name} onClick={() => { setActiveUser(user.id) }}>{user.name}</p>
+          <div className={styles.user} key={index} onClick={() => { setActiveUser(user.id) }}>
+            <p className={styles.name}>{user.name}</p>
             <div className={styles.groupsContainer}>
               {user.groups_ids.map((groupId, index) => {
                 let ugName = "";
@@ -110,8 +110,9 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
               <p className={styles.restrictionsName}>{user.restrictions.name}</p>
             </div>
             <div className={styles.btns}>
-              <button className={styles.btn} onClick={() => {
+              <button className={styles.btn} onClick={(e) => {
                 deleteUser(user.name);
+                e.stopPropagation();
               }}>Delete</button>
             </div>
           </div>

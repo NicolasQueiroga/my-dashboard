@@ -100,8 +100,9 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
                 })}
               </div>
               <div className={styles.deleteBtn}>
-                <button onClick={() => {
+                <button onClick={(e) => {
                   deleteInstance(instance.name);
+                  e.stopPropagation();
                 }}>Delete</button>
               </div>
             </div>
@@ -136,7 +137,7 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
           {json.security_groups.map((sg, k) => {
             return (
               <div key={k} className={styles.instanceSecurityGroup}>
-                <input type="checkbox" defaultChecked={dummy.security_groups_ids.includes(sg.id)} onChange={(e) => {
+                <input type="checkbox" defaultChecked={dummy.security_groups_ids?.includes(sg.id)} onChange={(e) => {
                   if (e.target.checked) {
                     dummy.security_groups_ids.push(sg.id);
                   } else {
