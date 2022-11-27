@@ -11,3 +11,7 @@ output "ec2_public_ip" {
 output "ec2_instance" {
   value = aws_instance.ec2_instance
 }
+
+output "security_groups" {
+  value = [for sg in aws_security_group.sg : sg]
+}

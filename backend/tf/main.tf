@@ -1,27 +1,35 @@
 module "network" {
-  source          = "./network"
-  access_ip       = var.access_ip
-  vpc_cidr        = local.vpc_cidr
-  security_groups = var.security_groups
-
+  count     = length(var.instances) == 0 || length(var.security_groups) == 0 ? 0 : 1
+  source    = "./network"
+  access_ip = var.access_ip
+  vpc_cidr  = local.vpc_cidr
 }
 
 module "ec2" {
-  source        = "./ec2"
-  public_subnet = module.network.public_subnet
-  security_groups = module.network.security_groups
-  instances = var.instances
+  count           = length(var.instances) == 0 ? 0 : 1
+  source          = "./ec2"
+  public_subnet   = module.network[0].public_subnet
+  vpc_id          = module.network[0].vpc_id
+  instances       = var.instances
+  security_groups = var.security_groups
 }
 
 module "user" {
-  source    = "./user"
-  users = var.users
+  count  = length(var.users) == 0 ? 0 : 1
+  source = "./user"
+  users  = var.users
 }
 
 module "groups" {
-  source    = "./groups"
+  count       = length(var.user_groups) == 0 ? 0 : 1
+  source      = "./groups"
   user_groups = var.user_groups
-  users = var.users
+  users       = var.users
+}
+
+module "autoscale" {
+  count = terraform.workspace == "default" ? 1 : 0
+  source = "./autoscale"
 }
 
 output "network" {
@@ -34,4 +42,8 @@ output "ec2" {
 
 output "user" {
   value = module.user
+}
+
+output "autoscale" {
+  value = module.autoscale
 }
