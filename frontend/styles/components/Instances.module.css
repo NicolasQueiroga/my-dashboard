@@ -55,7 +55,7 @@
     min-width: 210px;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 930px) {
     .instances {
         display: flex;
     flex-wrap: nowrap;
