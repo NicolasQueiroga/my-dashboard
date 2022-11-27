@@ -83,7 +83,11 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
   }
 
   function showUsers() {
-    return (
+    return users.length === 0 ? (
+      <div className={styles.noU}>
+        <p>No Users</p>
+      </div>
+    ) : (
       <div className={styles.users}>
         {users.map((user, index) => (
           <div className={styles.user} key={index}>
@@ -108,7 +112,7 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
             <div className={styles.btns}>
               <button className={styles.btn} onClick={() => {
                 deleteUser(user.name);
-              }}>X</button>
+              }}>Delete</button>
             </div>
           </div>
         ))}
@@ -119,10 +123,12 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
   function showUser(index: number) {
     dummy = { ...users[index] };
     return (
-      <div className={styles.user}>
+      <div className={styles.userFocus}>
         <input className={styles.name} type="text" placeholder="Name" defaultValue={dummy.name} onChange={(e) => {
           dummy.name = e.target.value;
         }} />
+        <br />
+        <br />
         <div className={styles.groupsContainer}>
           {json.user_groups.map((group, index) => {
             return (
@@ -140,6 +146,7 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
             )
           })}
         </div>
+        <br />
         <div className={styles.restrictionsContainer}>
           <input className={styles.restrictionsName} type="text" placeholder="Restrictions" defaultValue={dummy.restrictions.name} onChange={(e) => {
             dummy.restrictions.name = e.target.value;
@@ -150,11 +157,12 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
           }
           } />
           <div className={styles.restrictions}>
+            <br />
             <div className={styles.restrictionsActions}>
               {dummy.restrictions.actions.map((action, index) => {
                 return (
-                  <div className={styles.restriction} key={index}>
-                    <input type="text" placeholder="Action" defaultValue={action} onChange={(e) => {
+                  <div className={styles.action} key={index}>
+                    <input className={styles.restrictionAction} type="text" placeholder="Action" defaultValue={action} onChange={(e) => {
                       dummy.restrictions.actions[index] = e.target.value;
                     }} />
                     {dummy.restrictions.actions.length - 1 === index && (
@@ -178,8 +186,8 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
             <div className={styles.restrictionsResources}>
               {dummy.restrictions.resources.map((resource, index) => {
                 return (
-                  <div className={styles.restriction} key={index}>
-                    <input type="text" placeholder="Resource" defaultValue={resource} onChange={(e) => {
+                  <div className={styles.resource} key={index}>
+                    <input className={styles.restrictionResource} type="text" placeholder="Resource" defaultValue={resource} onChange={(e) => {
                       dummy.restrictions.resources[index] = e.target.value;
                     }} />
                     {dummy.restrictions.resources.length - 1 === index && (
@@ -202,15 +210,11 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
             </div>
           </div>
         </div>
-        <div className={styles.btns}>
-          <button className={styles.btn} onClick={() => {
-            updateUser(dummy);
-            setActiveUser("");
-          }}>Save</button>
-          <button className={styles.btn} onClick={() => {
-            setActiveUser("");
-          }}>Cancel</button>
-        </div>
+        <br />
+        <button className={styles.btn} onClick={() => {
+          updateUser(dummy);
+          setActiveUser("");
+        }}>Update</button>
       </div>
     )
   }
@@ -219,14 +223,16 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
   function createUser() {
     dummy = { ...newUser };
     return (
-      <div className={styles.create}>
+      <div className={styles.userFocus}>
         <input type="text" name="username" placeholder="name" onChange={(e) => {
           dummy.name = e.target.value;
         }} />
-        <div className={styles.sgCheckbox}>
+        <br />
+        <br />
+        <div className={styles.groupsContainer}>
           {json.user_groups.map((ug, index) => {
             return (
-              <div className={styles.ugItems} key={index}>
+              <div className={styles.group} key={index}>
                 <input type="checkbox" name="ug" value={ug.id} onChange={(e) => {
                   if (e.target.checked) {
                     dummy.groups_ids.push(e.target.value);
@@ -242,7 +248,8 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
             )
           })}
         </div>
-        <div className={styles.restrictions}>
+        <br />
+        <div className={styles.restrictionsContainer}>
           <input type="text" name="restrictionsName" placeholder="restriction name" onChange={(e) => {
             dummy.restrictions.name = e.target.value;
           }} />
@@ -250,11 +257,12 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
             dummy.restrictions.description = e.target.value;
           }} />
           <div className={styles.restrictions}>
-            <div className={styles.actions}>
+            <br />
+            <div className={styles.restrictionsActions}>
               {newUser.restrictions.actions.map((action, index) => {
                 return (
                   <div className={styles.action} key={index}>
-                    <input type="text" name="action" placeholder="action" onChange={(e) => {
+                    <input className={styles.restrictionAction} type="text" name="action" placeholder="action" onChange={(e) => {
                       dummy.restrictions.actions[index] = e.target.value;
                     }} />
                     {newUser.restrictions.actions.length - 1 === index && (
@@ -276,11 +284,11 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
               })
               }
             </div>
-            <div className={styles.resources}>
+            <div className={styles.restrictionsResources}>
               {newUser.restrictions.resources.map((resource, index) => {
                 return (
-                  <div className={styles.action} key={index}>
-                    <input type="text" name="resource" placeholder="resource" onChange={(e) => {
+                  <div className={styles.resource} key={index}>
+                    <input className={styles.restrictionResource} type="text" name="resource" placeholder="resource" onChange={(e) => {
                       dummy.restrictions.resources[index] = e.target.value;
                     }} />
                     {newUser.restrictions.resources.length - 1 === index && (
@@ -304,16 +312,15 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
             </div>
           </div>
         </div>
-        <div className={styles.btns}>
-          <button onClick={() => {
-            setCreateU(false);
-          }}>Cancel</button>
-          <button onClick={() => {
-            setCreateU(false);
-            console.log("dummyyyy -> ", dummy);
-            addUser(dummy);
-          }}>Create</button>
-        </div>
+        <br />
+        <button onClick={() => {
+          setCreateU(false);
+          console.log("dummyyyy -> ", dummy);
+          addUser(dummy);
+        }}>Create</button>
+        <button onClick={() => {
+          setCreateU(false);
+        }}>Cancel</button>
       </div>
     )
   }
@@ -325,11 +332,9 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
       {activeUser !== "" && !createU && showUser(users.findIndex((u) => { return u.id === activeUser; }))}
       {activeUser === "" && createU && createUser()}
       {activeUser === "" && !createU && (
-        <div className={styles.buttons}>
-          <button onClick={() => {
-            setCreateU(true);
-          }}>Create User</button>
-        </div>
+        <button className={styles.buttons} onClick={() => {
+          setCreateU(true);
+        }}>Create User</button>
       )}
     </div>
   )

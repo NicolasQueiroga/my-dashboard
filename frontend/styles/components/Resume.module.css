@@ -1,0 +1,223 @@
+/* resume */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.fieldTitle {
+    margin-top: 35px;
+}
+
+.resume {}
+
+.btn {
+    display: grid;
+    margin-top: 40px;
+}
+
+/* --- */
+
+
+/* sg */
+.securityGroups {
+    display: flex;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 95vw;
+    height: -moz-fit-content;
+    height: fit-content;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.securityGroupsTitle {}
+
+.securityGroup {
+    display: flex;
+    background: #272727ab;
+    border-radius: 5px;
+    width: min-content;
+    height: auto;
+    transition: all 0.5s ease;
+    padding: 0px 3px 0px;
+    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+    min-width: 180px;
+}
+
+.rulesContainer {}
+
+.rule {}
+
+.cidrBlocks {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.cidrBlock {
+    padding: 5px;
+}
+
+/* --- */
+
+
+/* instance */
+.instances {
+    display: flex;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 95vw;
+    height: -moz-fit-content;
+    height: fit-content;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.instancesTitle {}
+
+.instance {
+    display: flex;
+    background: #272727ab;
+    border-radius: 5px;
+    width: min-content;
+    height: auto;
+    transition: all 0.5s ease;
+    padding: 0px 3px 0px;
+    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+    min-width: 180px;
+}
+
+.securityGroupsItems {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+}
+
+.securityGroupsItem {
+    padding: 5px;
+}
+
+/* --- */
+
+
+/* ug */
+.userGroups {
+    display: flex;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 95vw;
+    height: -moz-fit-content;
+    height: fit-content;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.userGroupsTitle {}
+
+.userGroup {
+    display: flex;
+    background: #272727ab;
+    border-radius: 5px;
+    width: min-content;
+    height: auto;
+    transition: all 0.5s ease;
+    padding: 0px 3px 0px;
+    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+    min-width: 180px;
+}
+
+.restrictions,
+.actions,
+.resources,
+.userRestrictions,
+.userActions,
+.userResources {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.action,
+.resource,
+.userAction,
+.userResource {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+/* --- */
+
+
+/* user */
+.users {
+    display: flex;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 95vw;
+    height: -moz-fit-content;
+    height: fit-content;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.usersTitle {}
+
+.user {
+    display: flex;
+    background: #272727ab;
+    border-radius: 5px;
+    width: min-content;
+    height: auto;
+    transition: all 0.5s ease;
+    padding: 0px 3px 0px;
+    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+    min-width: 180px;
+}
+
+.userGroupsList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.userGroupName {
+    padding: 5px;
+}
+
+
+
+/* --- */

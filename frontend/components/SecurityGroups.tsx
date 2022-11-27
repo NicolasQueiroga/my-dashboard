@@ -94,6 +94,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
     dummy = { ...newSg };
     return (
       <div className={styles.securityGroupFocus}>
+        <h2>Create Instance</h2>
         <div className={styles.securityGroupFocusHeader}>
           <input type="text" placeholder="Name" defaultValue={newSg.name} onChange={(e) => (dummy.name = e.target.value)} />
           <input type="text" placeholder="Description" defaultValue={newSg.description} onChange={(e) => (dummy.description = e.target.value)} />
@@ -328,7 +329,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
       {activeId === "" && !createSg && showSecurityGroups()}
       {activeId !== "" && !createSg && showSecurityGroup(securityGroups.findIndex((securityGroup) => securityGroup.id === activeId))}
       {createSg && createSecurityGroup()}
-      {!createSg && activeId === "" && <button className={styles.addBtn} onClick={() => setCreateSg(true)}>Create Security Group</button>}
+      {!createSg && activeId === "" && <button className={styles._addBtn} onClick={() => setCreateSg(true)}>Create Security Group</button>}
     </div>
   )
 }

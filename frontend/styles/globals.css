@@ -59,3 +59,17 @@ input {
   cursor: pointer;
   border-radius: 5px;
 }
+
+select {
+  background: #323232;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px;
+}

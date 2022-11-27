@@ -1,0 +1,122 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.title {
+
+}
+
+.noI {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.instances {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    justify-content: space-between;
+}
+
+
+.instance {
+    display: flex;
+    background: #272727ab;
+    border-radius: 5px;
+    width: min-content;
+    height: auto;
+    transition: all 0.5s ease;
+    padding: 0px 3px 0px;
+    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+    min-width: 210px;
+}
+
+@media (max-width: 760px) {
+    .instances {
+        display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    justify-content: space-between;
+    align-items: center;
+    }
+}
+
+.instance:hover {
+    background: #272727;
+}
+
+.instanceContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: auto;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.instanceButton {
+    margin-top: 40px;
+}
+
+.deleteBtn {
+    margin-top: auto;
+}
+
+
+.createInstance {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: auto;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+}
+
+.buttons {
+    display: grid;
+    margin-top: 40px;
+}

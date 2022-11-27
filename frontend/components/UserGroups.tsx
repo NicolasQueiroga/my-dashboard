@@ -38,14 +38,16 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
   function createUserGroup() {
     dummy = { ...newUG };
     return (
-      <div className={styles.create}>
-        <input type="text" placeholder="Name" defaultValue={newUG.name} onChange={(e) => (dummy.name = e.target.value)} />
-        <input type="text" placeholder="Description" defaultValue={newUG.description} onChange={(e) => (dummy.description = e.target.value)} />
-        <input type="text" placeholder="Restrictions Name" defaultValue={newUG.restrictions.name} onChange={(e) => (dummy.restrictions.name = e.target.value)} />
-        <input type="text" placeholder="Restrictions Description" defaultValue={newUG.restrictions.description} onChange={(e) => (dummy.restrictions.description = e.target.value)} />
+      <div className={styles.userGroupFocus}>
+        <div className={styles.userGroupFocusHeader}>
+          <input type="text" placeholder="Name" defaultValue={newUG.name} onChange={(e) => (dummy.name = e.target.value)} />
+          <input type="text" placeholder="Description" defaultValue={newUG.description} onChange={(e) => (dummy.description = e.target.value)} />
+        </div>
+        <br />
+        <br />
         {newUG.restrictions.actions.map((action, index) => (
-          <div key={index} className={styles.restriction}>
-            <input type="text" placeholder="Action" defaultValue={action} onChange={(e) => (dummy.restrictions.actions[index] = e.target.value)} />
+          <div key={index} className={styles.action}>
+            <input className={styles.restrictionAction} type="text" placeholder="Action" defaultValue={action} onChange={(e) => (dummy.restrictions.actions[index] = e.target.value)} />
             {newUG.restrictions.actions.length - 1 === index && (
               <div className={styles.btns}>
                 {newUG.restrictions.actions.length > 1 && (
@@ -63,8 +65,8 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
           </div>
         ))}
         {newUG.restrictions.resources.map((resource, index) => (
-          <div key={index} className={styles.restriction}>
-            <input type="text" placeholder="Resource" defaultValue={resource} onChange={(e) => (dummy.restrictions.resources[index] = e.target.value)} />
+          <div key={index} className={styles.resource}>
+            <input className={styles.restrictionResource} type="text" placeholder="Resource" defaultValue={resource} onChange={(e) => (dummy.restrictions.resources[index] = e.target.value)} />
             {newUG.restrictions.resources.length - 1 === index && (
               <div className={styles.btns}>
                 {newUG.restrictions.resources.length > 1 && (
@@ -81,6 +83,7 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
             )}
           </div>
         ))}
+        <br />
         <button className={styles.btn} onClick={() => {
           updateUserGroup(dummy);
           setCreateUG(false);
@@ -132,20 +135,22 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
   }
 
   function showUserGroups() {
-    return (
+    return userGroups.length === 0 ? (
+      <div className={styles.noUg}>
+        <p>No User Groups</p>
+      </div>
+    ) : (
       <div className={styles.userGroups}>
         {userGroups.map((userGroup) => (
           <div className={styles.userGroup} key={userGroup.id}>
             <p className={styles.userGroupName} onClick={() => setActiveUG(userGroup.id)}>{userGroup.name}</p>
             <p className={styles.userGroupDescription}>{userGroup.description}</p>
-            <div className={styles.userGroupButtons}>
-              <button
-                className={styles.userGroupButton}
-                onClick={() => {
-                  deleteUserGroup(userGroup.id);
-                }}
-              >Delete</button>
-            </div>
+            <button
+              className={styles.userGroupButton}
+              onClick={() => {
+                deleteUserGroup(userGroup.id);
+              }}
+            >Delete</button>
           </div>
         ))}
       </div>
@@ -155,67 +160,62 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
   function showUserGroup(index: number) {
     dummy = { ...userGroups[index] };
     return (
-      <div className={styles.userGroup}>
+      <div className={styles.userGroupFocus}>
         {userGroups.map((userGroup, index) => (
           userGroup.id === activeUG && (
-            <div key={index} className={styles.userGroup}>
-              <input className={styles.userGroupName} defaultValue={userGroup.name} onChange={(e) => dummy.name = e.target.value} />
-              <input className={styles.userGroupDescription} defaultValue={userGroup.description} onChange={(e) => dummy.description = e.target.value} />
-              <div className={styles.restrictionsContainer}>
-                {userGroup.restrictions.actions.map((action, index) => (
-                  <div key={index} className={styles.action}>
-                    <input className={styles.restrictionAction} defaultValue={action} onChange={(e) => dummy.restrictions.actions[index] = e.target.value} />
-                    {userGroup.restrictions.actions.length - 1 === index && (
-                      <div className={styles.btns}>
-                        {userGroup.restrictions.actions.length > 1 && (
-                          <button className={styles.btn} onClick={() => {
-                            dummy.restrictions.actions.splice(index, 1);
-                            updateUserGroup(dummy);
-                          }}>X</button>
-                        )}
-                        <button className={styles.btn} onClick={() => {
-                          dummy.restrictions.actions.push("");
-                          updateUserGroup(dummy);
-                        }}>+</button>
-                      </div>
-                    )}
-                  </div>
-                ))}
-                {userGroup.restrictions.resources.map((resource, index) => (
-                  <div key={index} className={styles.resource}>
-                    <input className={styles.restrictionResource} defaultValue={resource} onChange={(e) => dummy.restrictions.resources[index] = e.target.value} />
-                    {userGroup.restrictions.resources.length - 1 === index && (
-                      <div className={styles.btns}>
-                        {userGroup.restrictions.resources.length > 1 && (
-                          <button className={styles.btn} onClick={() => {
-                            dummy.restrictions.resources.splice(index, 1);
-                            updateUserGroup(dummy);
-                          }}>X</button>
-                        )}
-                        <button className={styles.btn} onClick={() => {
-                          dummy.restrictions.resources.push("");
-                          updateUserGroup(dummy);
-                        }}>+</button>
-                      </div>
-                    )}
-                  </div>
-                ))}
+            <div key={index} className={styles.userGroupContent}>
+              <div className={styles.userGroupFocusHeader}>
+                <input className={styles.userGroupName} defaultValue={userGroup.name} onChange={(e) => dummy.name = e.target.value} />
+                <input className={styles.userGroupDescription} defaultValue={userGroup.description} onChange={(e) => dummy.description = e.target.value} />
               </div>
-              <div className={styles.userGroupButtons}>
-                <button
-                  className={styles.userGroupButton}
-                  onClick={() => {
-                    updateUserGroup(dummy);
-                    setActiveUG("");
-                  }}
-                >Save</button>
-                <button
-                  className={styles.userGroupButton}
-                  onClick={() => {
-                    setActiveUG("");
-                  }}
-                >Cancel</button>
-              </div>
+              <br />
+              <br />
+              {userGroup.restrictions.actions.map((action, index) => (
+                <div key={index} className={styles.action}>
+                  <input className={styles.restrictionAction} defaultValue={action} onChange={(e) => dummy.restrictions.actions[index] = e.target.value} />
+                  {userGroup.restrictions.actions.length - 1 === index && (
+                    <div className={styles.btns}>
+                      {userGroup.restrictions.actions.length > 1 && (
+                        <button className={styles.btn} onClick={() => {
+                          dummy.restrictions.actions.splice(index, 1);
+                          updateUserGroup(dummy);
+                        }}>X</button>
+                      )}
+                      <button className={styles.btn} onClick={() => {
+                        dummy.restrictions.actions.push("");
+                        updateUserGroup(dummy);
+                      }}>+</button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              {userGroup.restrictions.resources.map((resource, index) => (
+                <div key={index} className={styles.resource}>
+                  <input className={styles.restrictionResource} defaultValue={resource} onChange={(e) => dummy.restrictions.resources[index] = e.target.value} />
+                  {userGroup.restrictions.resources.length - 1 === index && (
+                    <div className={styles.btns}>
+                      {userGroup.restrictions.resources.length > 1 && (
+                        <button className={styles.btn} onClick={() => {
+                          dummy.restrictions.resources.splice(index, 1);
+                          updateUserGroup(dummy);
+                        }}>X</button>
+                      )}
+                      <button className={styles.btn} onClick={() => {
+                        dummy.restrictions.resources.push("");
+                        updateUserGroup(dummy);
+                      }}>+</button>
+                    </div>
+                  )}
+                </div>
+              ))}
+              <br />
+              <button
+                className={styles.userGroupButton}
+                onClick={() => {
+                  updateUserGroup(dummy);
+                  setActiveUG("");
+                }}
+              >Update</button>
             </div>
           )))}
       </div>

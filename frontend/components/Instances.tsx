@@ -72,12 +72,16 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
   }
 
   function showInstances() {
-    return (
+    return instances.length === 0 ? (
+      <div className={styles.noI}>
+        <p>No Instances</p>
+      </div>
+    ) : (
       <div className={styles.instances}>
         {instances.map((instance, index) => {
           return (
-            <div key={index} className={styles.instance}>
-              <p className={styles.instanceName} onClick={() => { setActiveInstance(instance.name) }}>{instance.name}</p>
+            <div key={index} className={styles.instance} onClick={() => { setActiveInstance(instance.name) }}>
+              <p className={styles.instanceName}>{instance.name}</p>
               <p className={styles.instanceRegion}>{instance.region}</p>
               <p className={styles.instanceType}>{instance.instance_type}</p>
               <p className={styles.instanceAMI}>{(ami_reference as any)[instance.region]}</p>
@@ -95,7 +99,7 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
                   )
                 })}
               </div>
-              <div className={styles.instanceButtons}>
+              <div className={styles.deleteBtn}>
                 <button onClick={() => {
                   deleteInstance(instance.name);
                 }}>Delete</button>
@@ -110,7 +114,7 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
   function showInstance(index: number) {
     dummy = { ...instances[index] };
     return (
-      <div className={styles.instance}>
+      <div className={styles.instanceContainer}>
         <input type="text" placeholder="Name" defaultValue={dummy.name} onChange={(e) => { dummy.name = e.target.value }} />
         <select defaultValue={dummy.region} onChange={(e) => {
           dummy.region = e.target.value
@@ -144,11 +148,9 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
             )
           })}
         </div>
-        <div className={styles.instanceButtons}>
-          <button onClick={() => {
-            updateInstance();
-          }}>Update</button>
-        </div>
+        <button className={styles.instanceButton} onClick={() => {
+          updateInstance();
+        }}>Update</button>
       </div>
 
     )
@@ -225,11 +227,9 @@ export default function Instances({ json, setJson }: ({ json: JsonProps, setJson
       {activeInstance !== "" && showInstance(instances.findIndex((instance) => { return instance.name == activeInstance }))}
       {createI && activeInstance === "" && createInstance()}
       {!createI && activeInstance === "" && (
-        <div className={styles.buttons}>
-          <button onClick={() => {
-            setCreateI(true);
-          }}>Create Instance</button>
-        </div>
+        <button className={styles.buttons} onClick={() => {
+          setCreateI(true);
+        }}>Create Instance</button>
       )}
     </div>
   )

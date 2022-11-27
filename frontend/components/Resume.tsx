@@ -35,7 +35,7 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
                                     <div className={styles.cidrBlocks}>
                                         {rule.cidr_blocks.map((cidrBlock, index: number) => (
                                             <div className={styles.cidrBlock} key={index}>
-                                                <p className={styles.cidrBlockTitle}>CIDR Block: {cidrBlock}</p>
+                                                <p className={styles.cidrBlockTitle}>{cidrBlock}</p>
                                             </div>
                                         ))}
                                     </div>
@@ -55,7 +55,7 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
                     <div className={styles.instance} key={k}>
                         <p className={styles.name}>{instance.name}</p>
                         <p className={styles.type}>Type: {instance.instance_type}</p>
-                        <div className={styles.securityGroups}>
+                        <div className={styles.securityGroupsItems}>
                             {instance.security_groups_ids.map((securityGroupId, index: number) => {
                                 let sgName = "";
                                 securityGroups.forEach((securityGroup: SecurityGroupProps) => {
@@ -64,7 +64,7 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
                                     }
                                 })
                                 return (
-                                    <div className={styles.securityGroup} key={index}>
+                                    <div className={styles.securityGroupsItem} key={index}>
                                         <p className={styles.securityGroupName}>{sgName}</p>
                                     </div>
                                 )
@@ -84,7 +84,6 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
                         <p className={styles.name}>{userGroup.id} {userGroup.name}</p>
                         <p className={styles.description}>{userGroup.description}</p>
                         <div className={styles.restrictions}>
-                            <p className={styles.restrictionsTitle}>Restrictions</p>
                             <div className={styles.actions}>
                                 <p className={styles.actionsTitle}>Actions</p>
                                 {userGroup.restrictions.actions.map((action, index: number) => (
@@ -114,8 +113,8 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
                 {users.map((user: UserProps, k) => (
                     <div className={styles.user} key={k}>
                         <p className={styles.name}>{user.name}</p>
+                        <p className={styles.userGroupsTitle}>User Groups</p>
                         <div className={styles.userGroupsList}>
-                            <p className={styles.userGroupsTitle}>User Groups</p>
                             {user.groups_ids.map((userGroupId, index: number) => {
                                 let userGroupName = "";
                                 userGroups.forEach((userGroup: UserGroupProps) => {
@@ -131,19 +130,18 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
                             })}
                         </div>
                         <div className={styles.userRestrictions}>
-                            <p className={styles.userRestrictionsTitle}>Restrictions</p>
-                            <div className={styles.actions}>
+                            <div className={styles.userActions}>
                                 <p className={styles.actionsTitle}>Actions</p>
-                                {user.restrictions.actions.length && user.restrictions.actions.map((action, index: number) => (
-                                    <div className={styles.action} key={index}>
+                                {user.restrictions.actions && user.restrictions.actions.map((action, index: number) => (
+                                    <div className={styles.userAction} key={index}>
                                         <p className={styles.actionTitle}>{action}</p>
                                     </div>
                                 ))}
                             </div>
-                            <div className={styles.resources}>
+                            <div className={styles.userResources}>
                                 <p className={styles.resourcesTitle}>Resources</p>
                                 {user.restrictions.resources && user.restrictions.resources.map((resource, index: number) => (
-                                    <div className={styles.resource} key={index}>
+                                    <div className={styles.userResource} key={index}>
                                         <p className={styles.resourceTitle}>{resource}</p>
                                     </div>
                                 ))}
@@ -160,24 +158,26 @@ export default function Resume({ json, setPage }: ({ json: JsonProps, setPage: F
             <p className={styles.title}>Resume</p>
 
             <div className={styles.resume}>
+                <p className={styles.fieldTitle}>Security Groups</p>
                 <div className={styles.securityGroups}>
-                    <p className={styles.securityGroupsTitle}>Security Groups</p>
                     {securityGroups.length > 0 && showSecurityGroups()}
                 </div>
+                <p className={styles.fieldTitle}>Instances</p>
                 <div className={styles.instances}>
-                    <p className={styles.instancesTitle}>Instances</p>
                     {instances.length > 0 && showInstances()}
                 </div>
+                <p className={styles.fieldTitle}>User Groups</p>
                 <div className={styles.userGroups}>
-                    <p className={styles.userGroupsTitle}>User Groups</p>
                     {userGroups.length > 0 && showUserGroups()}
                 </div>
+                <p className={styles.fieldTitle}>Users</p>
                 <div className={styles.users}>
-                    <p className={styles.usersTitle}>Users</p>
                     {users.length > 0 && showUsers()}
                 </div>
             </div>
-            <button className={styles.btn} onClick={async () => {await launch();}}>Generate</button>
+            <button className={styles.btn} onClick={async () => { await launch(); }}>Generate</button>
+            <br />
+            <br />
         </div>
     )
 }

@@ -1,0 +1,123 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.title {}
+
+.noUg {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.userGroups {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+    justify-content: space-between;
+}
+
+.userGroup {
+    display: flex;
+    background: #272727ab;
+    border-radius: 5px;
+    width: min-content;
+    height: auto;
+    transition: all 0.5s ease;
+    padding: 0px 3px 0px;
+    margin: 10px;
+    flex-direction: column;
+    align-items: center;
+    min-width: 180px;
+}
+
+@media (max-width: 760px) {
+    .userGroups {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        background: #2727275c;
+        border-radius: 5px;
+        width: 55vw;
+        height: 40vh;
+        transition: all 0.5s ease;
+        padding: 20px;
+        overflow: auto;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+.userGroup:hover {
+    background: #272727;
+}
+
+.userGroupFocus {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    overflow: auto;
+    background: #2727275c;
+    border-radius: 5px;
+    width: 55vw;
+    height: 40vh;
+    transition: all 0.5s ease;
+    padding: 20px;
+    overflow: auto;
+}
+
+.addBtn {
+    display: grid;
+    margin-top: 40px;
+}
+
+.userGroupContent {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+}
+
+.userGroupFocusHeader {
+    display: flex;
+}
+
+.action,
+.resource {
+    display: flex;
+}
+
+.restrictionAction,
+.restrictionResource {
+    width: -webkit-fill-available;
+}
+
+.btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.userGroupButton {
+    margin-top: auto;
+}
