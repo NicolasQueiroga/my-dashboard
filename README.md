@@ -36,7 +36,7 @@ Agora você terá a aplicação web rodando na seguinte url `http://localhost:30
   - `mkdir keys`
   - `cd ../ec2`
   - `mkdir keys`
-  - `cd ..`
+  - `cd ../..`
   - `docker compose up`
 
 Agora consegue desfrutar da interface amigável para criar as seus usuários e instâncias!
