@@ -82,13 +82,11 @@ def create_instance_dict(request):
 
         for sg in sgs:
             for id in security_groups_ids:
-                if sg["id"] == id:
-                    if "security_groups" not in list(regions_dict[region].keys()):
-                        regions_dict[region]["security_groups"] = [sg]
-                    else:
-                        regions_dict[region]["security_groups"].append(sg)
+                if sg["id"] == id and sg not in regions_dict[region]["security_groups"]:
+                    regions_dict[region]["security_groups"].append(sg)
+                    
 
-        
+        print(regions_dict)
     return regions_dict
 
 
