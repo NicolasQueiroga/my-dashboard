@@ -28,7 +28,7 @@ module "groups" {
 }
 
 module "autoscale" {
-  count = terraform.workspace == "default" ? 1 : 0
+  count = terraform.workspace == "default" && var.scale ? 1 : 0
   source = "./autoscale"
 }
 

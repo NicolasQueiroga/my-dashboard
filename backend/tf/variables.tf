@@ -17,6 +17,11 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
+variable "scale" {
+  type = bool
+  default = false
+}
+
 variable "security_groups" {
   type = list(object({
     id          = string
