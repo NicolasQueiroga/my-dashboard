@@ -25,12 +25,18 @@ Para rodar o docker siga os comandos abaixo (dentro do diretório raiz do projet
 
 Agora você terá a aplicação web rodando na seguinte url `http://localhost:3000/`
 
-- executar o backend:
+- executar o backend em outro terminal:
   - `cd backend`
   - `cd tf`
   - crie um arquivo `terraform.tfvars` e adicione as seguintes linhas:
     - aws_access_key = ""
     - aws_secret_key = ""
+    - access_ip = "0.0.0.0/0"
+  - `cd autoscale`
+  - `mkdir keys`
+  - `cd ../ec2`
+  - `mkdir keys`
+  - `cd ..`
   - `docker compose up`
 
 Agora consegue desfrutar da interface amigável para criar as seus usuários e instâncias!
