@@ -49,12 +49,13 @@ def create_instance_dict(request):
                 "aws_region": region,
                 "users": [],
                 "user_groups": [],
+                "security_groups": [],
             }
             regions_dict[region]["instances"] = [instance]
         else:
             regions_dict[region]["instances"].append(instance)
         if len(security_groups_ids) == 0:
-            regions_dict[region]["security_groups"] = [
+            regions_dict[region]["security_groups"].append(
                 {
                         "id": "0",
                         "name": "default-sg",
@@ -76,7 +77,7 @@ def create_instance_dict(request):
                             },
                         ],
                     }
-            ]
+            )
             regions_dict[region]["instances"][-1]["security_groups_ids"] = ["0"]
 
         for sg in sgs:
@@ -112,7 +113,6 @@ def launch(request, *args, **kwargs):
         os.system("rm default_variables.json")
 
     regions_dict = create_instance_dict(request)
-
     for region in list(regions_dict.keys()):
         with open(f"{region}-vars.json", "w") as outfile:
             json.dump(regions_dict[region], outfile)
@@ -126,9 +126,9 @@ def launch(request, *args, **kwargs):
             os.chdir("../api")
             return Response(e, status=status.HTTP_400_BAD_REQUEST)
         finally:
-            os.system(f"terraform workspace select default")
             os.system(f"rm {region}-vars.json")
 
+    os.system(f"terraform workspace select default")
     os.chdir("../api")
     return Response({"status": "success"}, status=status.HTTP_200_OK)
 
