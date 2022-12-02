@@ -29,7 +29,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
   const [newSg, setNewSg] = useState<SecurityGroupProps>(dummy);
   useEffect(() => {
     setSecurityGroups(json.security_groups);
-  }, [json.security_groups]);
+  }, [json.security_groups, setJson]);
 
   const [createSg, setCreateSg] = useState<boolean>(false);
   const [activeId, setActiveId] = useState<string>("");
@@ -68,6 +68,7 @@ export default function SecurityGroups({ json, setJson }: ({ json: JsonProps, se
   function updateSecurityGroup(data: SecurityGroupProps) {
     let newJson = { ...json };
     newJson.security_groups.map((sg) => {
+      console.log(sg.id === data.id)
       if (sg.id === data.id) {
         sg.name = data.name;
         sg.description = data.description;

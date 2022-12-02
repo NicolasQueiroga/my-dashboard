@@ -6,7 +6,7 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
   const [userGroups, setUserGroups] = useState<Array<UserGroupProps>>(json.user_groups);
   useEffect(() => {
     setUserGroups(json.user_groups);
-  }, [json.user_groups]);
+  }, [json.user_groups, setJson]);
 
   const [createUG, setCreateUG] = useState<boolean>(false);
   const [activeUG, setActiveUG] = useState<string>("");
@@ -22,7 +22,21 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
       resources: [""],
     },
   };
-  const [newUG, setNewUG] = useState<UserGroupProps>({ ...dummy });
+  const [newUG, setNewUG] = useState<UserGroupProps>(dummy);
+
+  function updateUserGroup(data: UserGroupProps) {
+    console.log(data);
+    let newJson = { ...json };
+    newJson.user_groups.map((ug) => {
+      console.log(ug.id, data.id);
+      if (ug.id === data.id) {
+        ug.name = data.name;
+        ug.description = data.description;
+        ug.restrictions = data.restrictions;
+      }
+    });
+    setJson(newJson);
+  }
 
   function deleteUserGroup(id: string) {
     let newJson = { ...json };
@@ -86,7 +100,7 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
         ))}
         <br />
         <button className={styles.btn} onClick={() => {
-          updateUserGroup(dummy);
+          addUserGroup(dummy);
           setCreateUG(false);
         }}>Create</button>
         <button className={styles.btn} onClick={() => {
@@ -96,43 +110,25 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
     )
   }
 
-  function updateUserGroup(data: UserGroupProps) {
+  function addUserGroup(data: UserGroupProps) {
     let newJson = { ...json };
-    console.log("errrrrou", newJson);
-    newJson.user_groups.map((ug) => {
-      if (ug.id === data.id && data.id !== "") {
-        ug.name = data.name;
-        ug.description = data.description;
-        ug.restrictions.name = data.restrictions.name;
-        ug.restrictions.description = data.restrictions.description;
-        ug.restrictions.actions = data.restrictions.actions;
-        ug.restrictions.resources = data.restrictions.resources;
-      } else if (data.id === "") {
-        console.log("new", data);
-        let currentLastId = json.user_groups[json.user_groups.length - 1].id;
-        let newId = (currentLastId + 1).toString();
-        data.id = newId;
-        newJson.user_groups.push(data);
-        setNewUG(
-          {
-            id: "",
-            name: "",
-            description: "",
-            restrictions: {
-              name: "",
-              description: "",
-              actions: [""],
-              resources: [""],
-            },
-          }
-        );
-      }
-    });
-    if (json.user_groups.length === 0) {
-      data.id = "1";
-      newJson.user_groups.push(data);
-    }
+    let newUg = { ...data };
+    newUg.id = (json.user_groups.length + 1).toString();
+    newJson.user_groups.push(newUg);
     setJson(newJson);
+    setNewUG(
+      {
+        id: "",
+        name: "",
+        description: "",
+        restrictions: {
+          name: "",
+          description: "",
+          actions: [""],
+          resources: [""],
+        },
+      }
+    );
   }
 
   function showUserGroups() {
@@ -142,8 +138,8 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
       </div>
     ) : (
       <div className={styles.userGroups}>
-        {userGroups.map((userGroup) => (
-          <div className={styles.userGroup} key={userGroup.id} onClick={() => setActiveUG(userGroup.id)}>
+        {userGroups.map((userGroup, id) => (
+          <div className={styles.userGroup} key={id} onClick={() => setActiveUG(userGroup.id)}>
             <p className={styles.userGroupName}>{userGroup.name}</p>
             <p className={styles.userGroupDescription}>{userGroup.description}</p>
             <button
@@ -160,12 +156,12 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
   }
 
   function showUserGroup(index: number) {
-    dummy = { ...userGroups[index] };
+    dummy = userGroups[index];
     return (
       <div className={styles.userGroupFocus}>
-        {userGroups.map((userGroup, index) => (
-          userGroup.id === activeUG && (
-            <div key={index} className={styles.userGroupContent}>
+        {userGroups.map((userGroup, i) => (
+          i === index && (
+            <div key={i} className={styles.userGroupContent}>
               <div className={styles.userGroupFocusHeader}>
                 <input className={styles.userGroupName} defaultValue={userGroup.name} onChange={(e) => dummy.name = e.target.value} />
                 <input className={styles.userGroupDescription} defaultValue={userGroup.description} onChange={(e) => dummy.description = e.target.value} />
@@ -228,7 +224,7 @@ export default function UserGroups({ json, setJson }: ({ json: JsonProps, setJso
     <div className={styles.container}>
       <p className={styles.title}>User Groups</p>
       {activeUG === "" && !createUG && showUserGroups()}
-      {activeUG !== "" && !createUG && showUserGroup(userGroups.findIndex((ug) => ug.id === activeUG))}
+      {activeUG !== "" && !createUG && showUserGroup(userGroups.findIndex((ug: UserGroupProps) => ug.id === activeUG))}
       {createUG && createUserGroup()}
       {!createUG && activeUG === "" && <button className={styles.addBtn} onClick={() => setCreateUG(true)}>Create Security Group</button>}
     </div>
