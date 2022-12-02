@@ -39,6 +39,7 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
     } else {
       data.id = (parseInt(newJson.users[newJson.users.length - 1].id) + 1).toString();
     }
+    data.restrictions.name += `Of${data.name}`;
     newJson.users.push(data);
     setJson(newJson);
     setNewUser(
