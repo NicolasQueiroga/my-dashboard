@@ -239,3 +239,6 @@ terraform.rc
 .DS_Store
 .vscode
 ec2/keys/*
+
+
+my_variables.json
