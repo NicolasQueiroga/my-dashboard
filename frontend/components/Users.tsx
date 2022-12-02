@@ -12,10 +12,10 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
     name: "",
     groups_ids: [],
     restrictions: {
-      name: "",
-      description: "",
-      actions: [""],
-      resources: [""]
+      name: "ChangePassword",
+      description: "Change Password Only",
+      actions: ["iam:ChangePassword"],
+      resources: ["*"]
     }
   };
   const [newUser, setNewUser] = useState(dummy);
@@ -47,10 +47,10 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
         name: "",
         groups_ids: [],
         restrictions: {
-          name: "",
-          description: "",
-          actions: [""],
-          resources: [""]
+          name: "ChangePassword",
+          description: "Change Password Only",
+          actions: ["iam:ChangePassword"],
+          resources: ["*"]
         }
       }
     );
@@ -72,10 +72,10 @@ export default function Users({ json, setJson }: ({ json: JsonProps, setJson: Fu
         name: "",
         groups_ids: [],
         restrictions: {
-          name: "",
-          description: "",
-          actions: [""],
-          resources: [""]
+          name: "ChangePassword",
+          description: "Change Password Only",
+          actions: ["iam:ChangePassword"],
+          resources: ["*"]
         }
       }
     );
